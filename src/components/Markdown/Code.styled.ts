@@ -9,4 +9,9 @@ export const Root = styled.code`
   font-family: 'Consolas', monospace;
 
   background-color: #eee;
+
+  ${({ theme }) => theme.getColorSchemeSelector('dark')} {
+    border-color: #343434;
+    background-color: #343434;
+  }
 `
