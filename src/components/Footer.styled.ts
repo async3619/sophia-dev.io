@@ -9,7 +9,7 @@ export const Divider = styled.div`
 
   margin: ${({ theme }) => theme.spacing(4, 0)};
 
-  background-color: ${({ theme }) => theme.palette.divider};
+  background-color: ${({ theme }) => theme.vars.palette.divider};
 `
 
 export const Table = styled.table`

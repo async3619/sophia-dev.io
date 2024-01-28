@@ -6,7 +6,24 @@ const suite = local({
 })
 
 export const theme = extendTheme({
-  colorSchemes: {},
+  colorSchemes: {
+    light: {
+      palette: {
+        divider: '#ccc',
+      },
+    },
+    dark: {
+      palette: {
+        primary: {
+          main: '#8cb4ff',
+        },
+        background: {
+          default: '#1b1b1b',
+        },
+        divider: '#aaa',
+      },
+    },
+  },
   typography: {
     fontFamily: [suite.style.fontFamily, 'sans-serif'].join(','),
     fontWeightRegular: 500,
