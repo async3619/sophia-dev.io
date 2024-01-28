@@ -1,15 +1,19 @@
-import withMDXFactory from '@next/mdx'
+import createRemoteRefresh from 'next-remote-refresh'
+import { join } from 'node:path'
 
-const withMDX = withMDXFactory()
+const withRemoteRefresh = createRemoteRefresh({
+  paths: [join(process.cwd(), './content')],
+  ignored: '**/*.json',
+})
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
   i18n: {
     locales: ['en', 'ko'],
     defaultLocale: 'ko',
   },
 }
 
-export default withMDX(nextConfig)
+export default withRemoteRefresh(nextConfig)
