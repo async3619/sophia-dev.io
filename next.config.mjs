@@ -7,7 +7,7 @@ const nextConfig = {
   reactStrictMode: true,
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
   i18n: {
-    locales: ['en-US', 'ko'],
+    locales: ['en', 'ko'],
     defaultLocale: 'ko',
   },
 }
