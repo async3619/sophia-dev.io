@@ -1,5 +1,5 @@
-import { Theme } from '@mui/material'
+import type { experimental_extendTheme } from '@mui/material/styles'
 
 export interface InterpolationArgs {
-  theme: Theme
+  theme: ReturnType<typeof experimental_extendTheme>
 }
