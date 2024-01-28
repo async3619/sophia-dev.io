@@ -1,3 +1,4 @@
+import React from 'react'
 import type { AppProps } from 'next/app'
 
 import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles'
