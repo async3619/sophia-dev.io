@@ -2,6 +2,8 @@ import React from 'react'
 import type { AppProps } from 'next/app'
 import { useRemoteRefresh } from 'next-remote-refresh/hook'
 
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles'
 
 import { Layout } from '@components/Layout'
@@ -15,6 +17,8 @@ export default function App({ Component, pageProps }: AppProps) {
     <CssVarsProvider theme={theme}>
       <Layout>
         <Component {...pageProps} />
+        <Analytics />
+        <SpeedInsights />
       </Layout>
     </CssVarsProvider>
   )
