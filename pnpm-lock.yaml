@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@channel.io/channel-web-sdk-loader':
+    specifier: ^1.1.7
+    version: 1.1.7
   '@emotion/css':
     specifier: ^11.11.2
     version: 11.11.2
@@ -143,6 +146,10 @@ packages:
       '@babel/helper-string-parser': 7.23.4
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
+    dev: false
+
+  /@channel.io/channel-web-sdk-loader@1.1.7:
+    resolution: {integrity: sha512-wIHvOQpYTPpHGg0mS/CW/WKNONF1phmhHlGpfXGbHai81OgeUiyLtkwuNaiM7bR4QF8uIB+p0RrM/evn2Zb7pw==}
     dev: false
 
   /@emotion/babel-plugin@11.11.0:
