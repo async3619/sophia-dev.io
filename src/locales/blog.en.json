@@ -1,3 +1,4 @@
 {
-  "title": "Posts"
+  "title": "Posts",
+  "readingTime": "${count} min read"
 }

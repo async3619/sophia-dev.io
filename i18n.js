@@ -3,6 +3,7 @@ module.exports = {
   defaultLocale: 'ko',
   pages: {
     '/blog': ['blog'],
+    '/blog/[slug]': ['blog'],
   },
   interpolation: {
     prefix: '${',
