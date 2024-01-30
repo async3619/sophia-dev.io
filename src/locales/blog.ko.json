@@ -1,4 +1,5 @@
 {
   "title": "블로그",
-  "readingTime": "읽는데 ${count}분"
+  "readingTime": "읽는데 ${count}분",
+  "empty": "블로그 게시글이 없습니다"
 }

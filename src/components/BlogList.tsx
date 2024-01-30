@@ -6,9 +6,18 @@ import { Stack, Typography } from '@mui/material'
 
 export interface BlogListProps {
   blogs: Blog[]
+  emptyText?: string
 }
 
-export function BlogList({ blogs }: BlogListProps) {
+export function BlogList({ blogs, emptyText }: BlogListProps) {
+  if (blogs.length === 0) {
+    return (
+      <Typography variant="body2" color="text.secondary" textAlign="center">
+        {emptyText ?? 'No blogs found.'}
+      </Typography>
+    )
+  }
+
   return (
     <Styled.Root>
       <Stack spacing={1}>

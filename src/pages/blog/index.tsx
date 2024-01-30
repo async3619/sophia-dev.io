@@ -19,7 +19,7 @@ export default function Blogs({ blogs }: BlogsPage) {
   return (
     <div>
       <Title>{t('title')}</Title>
-      <BlogList blogs={blogs} />
+      <BlogList blogs={blogs} emptyText={t('empty')} />
     </div>
   )
 }

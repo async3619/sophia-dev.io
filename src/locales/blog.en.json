@@ -1,4 +1,5 @@
 {
   "title": "Posts",
-  "readingTime": "${count} min read"
+  "readingTime": "${count} min read",
+  "empty": "No posts found"
 }
