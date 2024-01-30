@@ -20,6 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <CssVarsProvider theme={theme}>
       <Head>
+        <meta name="author" content="Sophia (me@sophia-dev.io)" />
         <link rel="canonical" href={`https://sophia-dev.io${asPath}`} />
         <link
           rel="apple-touch-icon"
