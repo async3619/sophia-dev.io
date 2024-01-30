@@ -5,25 +5,31 @@ import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
 import matter from 'gray-matter'
 
-export interface StaticBaseProps {
+import readingTime from 'reading-time'
+
+export interface StaticBaseProps<TMetadata = Record<string, any>> {
   source: MDXRemoteSerializeResult
-  frontMatter: { [key: string]: any }
+  metadata: TMetadata
+  readingTime: ReturnType<typeof readingTime>
 }
 
-export async function getDocument(
+export async function getDocument<TMetadata = Record<string, any>>(
   directory: string,
   name: string,
   locale?: string,
-) {
+): Promise<StaticBaseProps<TMetadata>> {
   const targetDirectory = path.join(process.cwd(), 'content', directory)
   const fullPath = path.join(targetDirectory, `${name}.${locale ?? 'ko'}.mdx`)
   const fileContents = fs.readFileSync(fullPath, 'utf8')
+
+  const time = readingTime(fileContents)
 
   const { content, data } = matter(fileContents)
   const mdxSource = await serialize(content, { scope: data })
 
   return {
     source: mdxSource,
-    frontMatter: data,
+    metadata: data as TMetadata,
+    readingTime: time,
   }
 }

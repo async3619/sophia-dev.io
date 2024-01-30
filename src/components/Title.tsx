@@ -1,12 +1,14 @@
+import React from 'react'
 import Head from 'next/head'
 
 import { Typography } from '@mui/material'
 
 export interface TitleProps {
   children: React.ReactNode
+  withoutMargin?: boolean
 }
 
-export function Title({ children }: TitleProps) {
+export function Title({ children, withoutMargin }: TitleProps) {
   return (
     <>
       <Head>
@@ -16,7 +18,7 @@ export function Title({ children }: TitleProps) {
         variant="h2"
         fontWeight={700}
         fontSize="1.75rem"
-        sx={{ mb: '0.75em' }}
+        sx={{ mb: withoutMargin ? 0 : '0.75em' }}
       >
         {children}
       </Typography>

@@ -1,3 +1,4 @@
+import nextTranslate from 'next-translate-plugin'
 import createRemoteRefresh from 'next-remote-refresh'
 import { join } from 'node:path'
 
@@ -16,4 +17,4 @@ const nextConfig = {
   },
 }
 
-export default withRemoteRefresh(nextConfig)
+export default withRemoteRefresh(nextTranslate((nextConfig)))
