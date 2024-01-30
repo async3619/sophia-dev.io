@@ -19,8 +19,13 @@ export function Layout({ children }: LayoutProps) {
   const { mode } = useColorScheme()
 
   useEffect(() => {
+    const pluginKey = process.env.NEXT_PUBLIC_CHANNEL_IO_PLUGIN_KEY
+    if (!pluginKey) {
+      return
+    }
+
     ChannelService.loadScript()
-    ChannelService.boot({ pluginKey: 'eb4b2c86-9a99-4081-8c2d-9897be690491' })
+    ChannelService.boot({ pluginKey })
 
     if (mode === 'dark') {
       ChannelService.setAppearance('dark')
