@@ -1,6 +1,8 @@
 import _ from 'lodash'
 import dayjs from 'dayjs'
+
 import { GetStaticProps } from 'next'
+import useTranslation from 'next-translate/useTranslation'
 
 import { Title } from '@components/Title'
 import { BlogList } from '@components/BlogList'
@@ -12,9 +14,11 @@ interface BlogsPage {
 }
 
 export default function Blogs({ blogs }: BlogsPage) {
+  const { t } = useTranslation('blog')
+
   return (
     <div>
-      <Title>블로그</Title>
+      <Title>{t('title')}</Title>
       <BlogList blogs={blogs} />
     </div>
   )

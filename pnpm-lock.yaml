@@ -47,6 +47,9 @@ dependencies:
   next-mdx-remote:
     specifier: ^4.4.1
     version: 4.4.1(react-dom@18.2.0)(react@18.2.0)
+  next-translate:
+    specifier: ^2.6.2
+    version: 2.6.2(next@14.1.0)(react@18.2.0)
   react:
     specifier: ^18
     version: 18.2.0
@@ -103,6 +106,9 @@ devDependencies:
   next-remote-refresh:
     specifier: ^0.10.0
     version: 0.10.0(next@14.1.0)(react@18.2.0)
+  next-translate-plugin:
+    specifier: ^2.6.2
+    version: 2.6.2(next-translate@2.6.2)
   prettier:
     specifier: ^3.2.4
     version: 3.2.4
@@ -3845,6 +3851,27 @@ packages:
       - utf-8-validate
     dev: true
 
+  /next-translate-plugin@2.6.2(next-translate@2.6.2):
+    resolution: {integrity: sha512-qfvYG//QfP7b+A/xXGP9K+bdswkAFCabguemuEqjxu+j8pRNoF+jWKmepRXRaAcn1PqFLBj6PBvYkqD1r5k5Zw==}
+    engines: {node: '>=14.15.0'}
+    requiresBuild: true
+    peerDependencies:
+      next-translate: '>= 2.4.1'
+    dependencies:
+      next-translate: 2.6.2(next@14.1.0)(react@18.2.0)
+      typescript: 4.5.2
+    dev: true
+
+  /next-translate@2.6.2(next@14.1.0)(react@18.2.0):
+    resolution: {integrity: sha512-Dcfo2Vyw+Ds06+8BJM0RcV/lfN7R59kTY/NP+XJgSpcrFKZV6QJuKfS+K4+OHkKBdQnF3ZOT3wk1np9eZx/PEA==}
+    engines: {node: '>=16.10.0'}
+    peerDependencies:
+      next: '>= 13.2.5'
+      react: '>= 18.0.0'
+    dependencies:
+      next: 14.1.0(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+
   /next@14.1.0(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-wlzrsbfeSU48YQBjZhDzOwhWhGsy+uQycR8bHAOt1LY1bn3zZEcDyHQOEoN3aWzQ8LHCAJ1nqrWCc9XF2+O45Q==}
     engines: {node: '>=18.17.0'}
@@ -4766,6 +4793,12 @@ packages:
       call-bind: 1.0.5
       for-each: 0.3.3
       is-typed-array: 1.1.12
+    dev: true
+
+  /typescript@4.5.2:
+    resolution: {integrity: sha512-5BlMof9H1yGt0P8/WF+wPNw6GfctgGjXp5hkblpyT+8rkASSmkUKMXrxR0Xg8ThVCi/JnHQiKXeBaEwCeQwMFw==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
     dev: true
 
   /typescript@5.3.3:
