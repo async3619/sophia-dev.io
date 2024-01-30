@@ -1,6 +1,7 @@
 import dayjs from 'dayjs'
 
 import { GetStaticPaths, GetStaticProps } from 'next'
+import Head from 'next/head'
 import useTranslation from 'next-translate/useTranslation'
 
 import { Box } from '@mui/material'
@@ -35,6 +36,12 @@ export default function Post({ source, metadata, readingTime }: PostPage) {
 
   return (
     <div>
+      <Head>
+        <meta
+          name="og:description"
+          content={metadata.excerpt || metadata.title}
+        />
+      </Head>
       <Title withoutMargin>{metadata.title}</Title>
       <Box mt={1} mb="1.3125rem">
         <BlogMetadata

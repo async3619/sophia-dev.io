@@ -3,7 +3,7 @@ import { getInitColorSchemeScript } from '@mui/material/styles'
 
 export default function Document() {
   return (
-    <Html lang="en">
+    <Html>
       <Head />
       <body>
         {getInitColorSchemeScript()}
