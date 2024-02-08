@@ -1,10 +1,12 @@
 import { NextApiHandler } from 'next'
+import { getWebsiteBaseUrl } from '@utils/getWebsiteBaseUrl'
 
 export function serveGiscusStylesheet(theme: 'dark' | 'light'): NextApiHandler {
   return async (_, res) => {
-    const stylesheet = await fetch(
-      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/giscus-${theme}.css`,
-    ).then((response) => response.text())
+    const baseUrl = getWebsiteBaseUrl(false)
+    const stylesheet = await fetch(`${baseUrl}/giscus-${theme}.css`).then(
+      (response) => response.text(),
+    )
 
     res.setHeader('Access-Control-Allow-Origin', 'https://giscus.app')
     res.setHeader('Content-Type', 'text/css')
