@@ -15,6 +15,18 @@ const nextConfig = {
     locales: ['en', 'ko'],
     defaultLocale: 'ko',
   },
+  headers: async () =>
+    [
+      {
+        source: '/giscus-(.*).css',
+        headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: 'https://giscus.app',
+          },
+        ]
+      }
+    ],
 }
 
 export default withRemoteRefresh(nextTranslate((nextConfig)))

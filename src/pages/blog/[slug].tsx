@@ -5,6 +5,8 @@ import Head from 'next/head'
 import useTranslation from 'next-translate/useTranslation'
 
 import { Box } from '@mui/material'
+import { useColorScheme } from '@mui/material/styles'
+import Giscus from '@giscus/react'
 
 import { Title } from '@components/Title'
 import { MDXRenderer } from '@components/MDXRenderer'
@@ -15,10 +17,12 @@ import { isValidString } from '@utils/isValidString'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import { BlogMetadata } from '@components/BlogMetadata'
+import { getWebsiteBaseUrl } from '@utils/getWebsiteBaseUrl'
 
 interface PostPage extends StaticBaseProps<Metadata> {}
 
 export default function Post({ source, metadata, readingTime }: PostPage) {
+  const { mode } = useColorScheme()
   const { t } = useTranslation('blog')
   const { locale } = useRouter()
   const formattedDate = useMemo(() => {
@@ -52,6 +56,22 @@ export default function Post({ source, metadata, readingTime }: PostPage) {
         />
       </Box>
       <MDXRenderer source={source} />
+      <Box mt={8}>
+        <Giscus
+          id="comments"
+          repo="async3619/sophia-dev.io"
+          repoId="R_kgDOLKrNrA"
+          category="General"
+          categoryId="DIC_kwDOLKrNrM4CdEVh"
+          mapping="title"
+          strict="0"
+          reactionsEnabled="0"
+          emitMetadata="0"
+          inputPosition="top"
+          theme={`${getWebsiteBaseUrl(true)}/giscus-${mode}.css`}
+          lang="ko"
+        />
+      </Box>
     </div>
   )
 }
