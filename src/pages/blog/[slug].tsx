@@ -15,7 +15,6 @@ import { isValidString } from '@utils/isValidString'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import { BlogMetadata } from '@components/BlogMetadata'
-import { Comments } from '@components/Comments'
 
 interface PostPage extends StaticBaseProps<Metadata> {}
 
@@ -53,7 +52,6 @@ export default function Post({ source, metadata, readingTime }: PostPage) {
         />
       </Box>
       <MDXRenderer source={source} />
-      <Comments />
     </div>
   )
 }
