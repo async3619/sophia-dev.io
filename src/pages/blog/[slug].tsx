@@ -15,7 +15,7 @@ import { getDocuments, Metadata } from '@utils/getDocuments'
 import { getDocument, StaticBaseProps } from '@utils/getDocument'
 import { isValidString } from '@utils/isValidString'
 import { useRouter } from 'next/router'
-import { useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { BlogMetadata } from '@components/BlogMetadata'
 import { getWebsiteBaseUrl } from '@utils/getWebsiteBaseUrl'
 
@@ -53,6 +53,9 @@ export default function Post({
           name="og:description"
           content={metadata.excerpt || metadata.title}
         />
+        <meta name="twitter:title" content={metadata.title} />
+        <meta name="twitter:description" content={metadata.excerpt} />
+        <meta name="twitter:image" content={cardUrl} />
       </Head>
       <Title withoutMargin>{metadata.title}</Title>
       <Box mt={1} mb="1.3125rem">

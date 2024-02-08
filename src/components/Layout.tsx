@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react'
-import Head from 'next/head'
-import { useRouter } from 'next/router'
 
 import { Container, CssBaseline } from '@mui/material'
 import { useColorScheme } from '@mui/material/styles'
@@ -12,7 +10,6 @@ import { Header } from '@components/Header'
 import { FOOTER_ITEMS } from '@constants/footer'
 
 import * as Styled from './Layout.styled'
-import { getWebsiteBaseUrl } from '@utils/getWebsiteBaseUrl'
 
 export interface LayoutProps {
   children: React.ReactNode
@@ -20,7 +17,6 @@ export interface LayoutProps {
 
 export function Layout({ children }: LayoutProps) {
   const { mode } = useColorScheme()
-  const { locale } = useRouter()
 
   useEffect(() => {
     const pluginKey = process.env.NEXT_PUBLIC_CHANNEL_IO_PLUGIN_KEY
@@ -40,12 +36,6 @@ export function Layout({ children }: LayoutProps) {
 
   return (
     <Styled.Root>
-      <Head>
-        <meta
-          name="og:image"
-          content={`${getWebsiteBaseUrl(true)}/api/index-card?locale=${locale}`}
-        />
-      </Head>
       <CssBaseline />
       <Container maxWidth="sm">
         <Header />
