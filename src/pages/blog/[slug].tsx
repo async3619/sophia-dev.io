@@ -69,7 +69,7 @@ export default function Post({ source, metadata, readingTime }: PostPage) {
           emitMetadata="0"
           inputPosition="top"
           theme={`${getWebsiteBaseUrl(true)}/giscus-${mode}.css`}
-          lang="ko"
+          lang={locale}
         />
       </Box>
     </div>
