@@ -105,7 +105,7 @@ export const getStaticProps: GetStaticProps<PostPage> = async ({
 
   const encodedTitle = encodeURIComponent(title)
   const encodedDescription = encodeURIComponent(excerpt)
-  const openGraphImageUrl = `${getWebsiteBaseUrl(true)}/api/blog-card?title=${encodedTitle}&description=${encodedDescription}&locale=${locale}`
+  const openGraphImageUrl = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/blog-card?title=${encodedTitle}&description=${encodedDescription}&locale=${locale}`
 
   return {
     props: { ...document, cardUrl: openGraphImageUrl },

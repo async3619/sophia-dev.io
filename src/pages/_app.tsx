@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import { useRemoteRefresh } from 'next-remote-refresh/hook'
+import useTranslation from 'next-translate/useTranslation'
 
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
@@ -11,8 +12,6 @@ import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/s
 import { Layout } from '@components/Layout'
 
 import { theme } from '@styles/theme'
-import useTranslation from 'next-translate/useTranslation'
-import { getWebsiteBaseUrl } from '@utils/getWebsiteBaseUrl'
 
 export default function App({ Component, pageProps }: AppProps) {
   useRemoteRefresh({ shouldRefresh: () => true })
@@ -53,7 +52,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="twitter:description" content={t('description')} />
         <meta
           name="twitter:image"
-          content={`${getWebsiteBaseUrl(true)}/api/index-card?locale=${locale}`}
+          content={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/index-card?locale=${locale}`}
         />
       </Head>
       <Layout>
