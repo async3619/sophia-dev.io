@@ -1,0 +1,13 @@
+{
+  "headers": [
+    {
+      "source": "/giscus-(.*).css",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://giscus.app"
+        }
+      ]
+    }
+  ]
+}
