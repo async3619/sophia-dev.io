@@ -19,9 +19,16 @@ import { useMemo } from 'react'
 import { BlogMetadata } from '@components/BlogMetadata'
 import { getWebsiteBaseUrl } from '@utils/getWebsiteBaseUrl'
 
-interface PostPage extends StaticBaseProps<Metadata> {}
+interface PostPage extends StaticBaseProps<Metadata> {
+  cardUrl: string
+}
 
-export default function Post({ source, metadata, readingTime }: PostPage) {
+export default function Post({
+  source,
+  metadata,
+  readingTime,
+  cardUrl,
+}: PostPage) {
   const { mode } = useColorScheme()
   const { t } = useTranslation('blog')
   const { locale } = useRouter()
@@ -41,6 +48,7 @@ export default function Post({ source, metadata, readingTime }: PostPage) {
   return (
     <div>
       <Head>
+        <meta name="og:image" content={cardUrl} />
         <meta
           name="og:description"
           content={metadata.excerpt || metadata.title}
@@ -90,9 +98,14 @@ export const getStaticProps: GetStaticProps<PostPage> = async ({
   }
 
   const document = await getDocument<Metadata>('blog', slug, locale)
+  const { excerpt, title } = document.metadata
+
+  const encodedTitle = encodeURIComponent(title)
+  const encodedDescription = encodeURIComponent(excerpt)
+  const openGraphImageUrl = `${getWebsiteBaseUrl(true)}/api/blog-card?title=${encodedTitle}&description=${encodedDescription}&locale=${locale}`
 
   return {
-    props: { ...document },
+    props: { ...document, cardUrl: openGraphImageUrl },
   }
 }
 
