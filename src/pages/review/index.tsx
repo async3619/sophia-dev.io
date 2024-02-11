@@ -12,6 +12,7 @@ import {
 } from '@constants/review'
 
 import { getDocuments } from '@utils/getDocuments'
+import { ReviewList } from '@components/Review/List'
 
 interface ReviewsPage {
   reviews: ReviewPostDocument[]
@@ -23,6 +24,7 @@ export default function Reviews({ reviews }: ReviewsPage) {
   return (
     <div>
       <Title>{t('title')}</Title>
+      <ReviewList items={reviews} emptyText={t('empty')} />
     </div>
   )
 }

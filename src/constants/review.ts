@@ -99,3 +99,17 @@ export const REVIEW_POST_METADATA_VALIDATOR = (
 }
 
 export type ReviewPostDocument = Document<ReviewMetadata>
+export type MovieReviewPostDocument = Document<MovieReviewMetadata>
+export type MusicReviewPostDocument = Document<MusicReviewMetadata>
+
+export function isMovieReviewDocument(
+  document: ReviewPostDocument,
+): document is MovieReviewPostDocument {
+  return document.metadata.type === 'movie'
+}
+
+export function isMusicReviewDocument(
+  document: ReviewPostDocument,
+): document is MusicReviewPostDocument {
+  return document.metadata.type === 'music'
+}

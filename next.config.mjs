@@ -15,6 +15,12 @@ const nextConfig = {
     locales: ['en', 'ko'],
     defaultLocale: 'ko',
   },
+  compiler: {
+    emotion: {
+      sourceMap: true,
+      autoLabel: true,
+    },
+  },
   headers: async () =>
     [
       {
