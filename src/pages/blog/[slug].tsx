@@ -1,8 +1,11 @@
-import dayjs from 'dayjs'
+import React, { useMemo } from 'react'
 
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
 import useTranslation from 'next-translate/useTranslation'
+import { useRouter } from 'next/router'
+
+import dayjs from 'dayjs'
 
 import { Box } from '@mui/material'
 import { useColorScheme } from '@mui/material/styles'
@@ -10,16 +13,16 @@ import Giscus from '@giscus/react'
 
 import { Title } from '@components/Title'
 import { MDXRenderer } from '@components/MDXRenderer'
+import { BlogMetadata } from '@components/BlogMetadata'
 
-import { getDocuments, Metadata } from '@utils/getDocuments'
+import { BLOG_POST_METADATA_VALIDATOR, BlogPostMetadata } from '@constants/blog'
+
+import { getDocuments } from '@utils/getDocuments'
 import { getDocument, StaticBaseProps } from '@utils/getDocument'
 import { isValidString } from '@utils/isValidString'
-import { useRouter } from 'next/router'
-import React, { useMemo } from 'react'
-import { BlogMetadata } from '@components/BlogMetadata'
 import { getWebsiteBaseUrl } from '@utils/getWebsiteBaseUrl'
 
-interface PostPage extends StaticBaseProps<Metadata> {
+interface PostPage extends StaticBaseProps<BlogPostMetadata> {
   cardUrl: string
 }
 
@@ -100,7 +103,13 @@ export const getStaticProps: GetStaticProps<PostPage> = async ({
     return { notFound: true }
   }
 
-  const document = await getDocument<Metadata>('blog', slug, locale)
+  const document = await getDocument(
+    'blog',
+    slug,
+    BLOG_POST_METADATA_VALIDATOR,
+    locale,
+  )
+
   const { excerpt, title } = document.metadata
 
   const encodedTitle = encodeURIComponent(title)
@@ -119,7 +128,7 @@ export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
 
   const results: { params: { slug: string }; locale: string }[] = []
   for (const locale of locales) {
-    const documents = getDocuments('blog', locale)
+    const documents = getDocuments('blog', BLOG_POST_METADATA_VALIDATOR, locale)
     const paths = documents.map((document) => ({
       params: { slug: document.slug },
       locale,
