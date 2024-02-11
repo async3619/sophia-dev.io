@@ -4,6 +4,7 @@ import { Document } from '@utils/getDocuments'
 interface BaseReviewPostMetadata extends yup.AnyObject {
   title: string
   createdAt: string
+  releasedAt: string
   rating: number // 1 ~ 10
   coverImage: string
   genres: string[]
@@ -11,31 +12,50 @@ interface BaseReviewPostMetadata extends yup.AnyObject {
 
 interface MovieReviewMetadata extends BaseReviewPostMetadata {
   type: 'movie'
-  director: string
+  directors: string[]
   actors: string[]
+}
+
+interface MusicTrack {
+  no: number
+  title: string
+  artists: string[]
+  length: string
+  isExplicit: boolean
+  isTitle: boolean
 }
 
 interface MusicReviewMetadata extends BaseReviewPostMetadata {
   type: 'music'
   artists: string[]
-  tracks: string[]
+  tracks: MusicTrack[]
 }
 
 type ReviewMetadata = MovieReviewMetadata | MusicReviewMetadata
 
-const MOVIE_REVIEW_METADATA_SCHEMA = yup
-  .object()
-  .shape({
-    type: yup.string<'movie'>().required().oneOf(['movie']),
+function baseShape() {
+  return {
     title: yup.string().required(),
     createdAt: yup
       .string()
       .matches(/^\d{4}-\d{2}-\d{2}( \d{2}:\d{2}:\d{2})?$/)
       .required(),
+    releasedAt: yup
+      .string()
+      .matches(/^\d{4}-\d{2}-\d{2}$/)
+      .required(),
     rating: yup.number().min(1).max(10).required(),
     coverImage: yup.string().required(),
     genres: yup.array().of(yup.string().required()).required(),
-    director: yup.string().required(),
+  }
+}
+
+const MOVIE_REVIEW_METADATA_SCHEMA = yup
+  .object()
+  .shape({
+    ...baseShape(),
+    type: yup.string<'movie'>().required().oneOf(['movie']),
+    directors: yup.array().of(yup.string().required()).required(),
     actors: yup.array().of(yup.string().required()).required(),
   })
   .required()
@@ -43,17 +63,22 @@ const MOVIE_REVIEW_METADATA_SCHEMA = yup
 const MUSIC_REVIEW_METADATA_SCHEMA = yup
   .object()
   .shape({
+    ...baseShape(),
     type: yup.string<'music'>().required().oneOf(['music']),
-    title: yup.string().required(),
-    createdAt: yup
-      .string()
-      .matches(/^\d{4}-\d{2}-\d{2}( \d{2}:\d{2}:\d{2})?$/)
-      .required(),
-    rating: yup.number().min(1).max(10).required(),
-    coverImage: yup.string().required(),
-    genres: yup.array().of(yup.string().required()).required(),
     artists: yup.array().of(yup.string().required()).required(),
-    tracks: yup.array().of(yup.string().required()).required(),
+    tracks: yup
+      .array()
+      .of(
+        yup.object().shape({
+          no: yup.number().required(),
+          title: yup.string().required(),
+          artists: yup.array().of(yup.string().required()).required(),
+          length: yup.string().required(),
+          isExplicit: yup.boolean().required(),
+          isTitle: yup.boolean().required(),
+        }),
+      )
+      .required(),
   })
   .required()
 
