@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import styled from '@emotion/styled'
-import { linkInterpolation } from '@styles/link'
 
 export const DiscWrapper = styled.div``
 
@@ -68,8 +67,6 @@ export const Background = styled.div``
 export const Open = styled.div``
 
 export const Graphics = styled.div`
-  margin-bottom: ${({ theme }) => theme.spacing(1)};
-
   position: relative;
 
   background-color: #cfb798;
@@ -79,12 +76,6 @@ export const Graphics = styled.div`
     theme.transitions.create(['box-shadow'], { duration: 450 })};
 
   transform: translate3d(0, 0, 0);
-`
-
-export const Title = styled.p`
-  text-decoration: underline;
-
-  ${linkInterpolation}
 `
 
 export const Root = styled(Link)`
