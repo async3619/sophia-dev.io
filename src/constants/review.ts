@@ -16,7 +16,7 @@ interface MovieReviewMetadata extends BaseReviewPostMetadata {
   actors: string[]
 }
 
-interface MusicTrack {
+export interface MusicTrack {
   no: number
   title: string
   artists: string[]
@@ -25,7 +25,7 @@ interface MusicTrack {
   isTitle: boolean
 }
 
-interface MusicReviewMetadata extends BaseReviewPostMetadata {
+export interface MusicReviewMetadata extends BaseReviewPostMetadata {
   type: 'music'
   artists: string[]
   tracks: MusicTrack[]
