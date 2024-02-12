@@ -32,7 +32,7 @@ async function main() {
     defaultStringType: 'QUOTE_DOUBLE',
   })
 
-  const reviewContent = `---\n${metadataString}\n---\n\n`
+  const reviewContent = `---\n${metadataString.trim()}\n---\n\n`
   const reviewFilename = path.join(REVIEW_PATH, `${slug}.ko.mdx`)
 
   await fs.ensureDir(REVIEW_PATH)
