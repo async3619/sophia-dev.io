@@ -1,4 +1,7 @@
 {
-  "title": "리뷰",
-  "empty": "리뷰 게시글이 없습니다"
+  "title": "리뷰 ✍\uFE0F",
+  "readingTime": "읽는데 ${count}분",
+  "empty": "리뷰 게시글이 없습니다",
+  "track-list": "수록곡 \uD83D\uDCD9",
+  "review": "감상평 \uD83D\uDCAC"
 }

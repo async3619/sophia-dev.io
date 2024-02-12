@@ -1,5 +1,6 @@
 import * as yup from 'yup'
 import { Document } from '@utils/getDocuments'
+import { createValidatorFromSchema } from '@utils/createValidatorFromSchema'
 
 interface BaseReviewPostMetadata extends yup.AnyObject {
   title: string
@@ -8,6 +9,7 @@ interface BaseReviewPostMetadata extends yup.AnyObject {
   rating: number // 1 ~ 10
   coverImage: string
   genres: string[]
+  quote: string
 }
 
 interface MovieReviewMetadata extends BaseReviewPostMetadata {
@@ -47,6 +49,7 @@ function baseShape() {
     rating: yup.number().min(1).max(10).required(),
     coverImage: yup.string().required(),
     genres: yup.array().of(yup.string().required()).required(),
+    quote: yup.string().required(),
   }
 }
 
@@ -82,6 +85,14 @@ const MUSIC_REVIEW_METADATA_SCHEMA = yup
   })
   .required()
 
+export const MUSIC_REVIEW_METADATA_VALIDATOR = createValidatorFromSchema(
+  MUSIC_REVIEW_METADATA_SCHEMA,
+)
+
+export const MOVIE_REVIEW_METADATA_VALIDATOR = createValidatorFromSchema(
+  MOVIE_REVIEW_METADATA_SCHEMA,
+)
+
 export const REVIEW_POST_METADATA_VALIDATOR = (
   data: unknown,
 ): ReviewMetadata => {
@@ -90,9 +101,9 @@ export const REVIEW_POST_METADATA_VALIDATOR = (
   }
 
   if (data.type === 'movie') {
-    return MOVIE_REVIEW_METADATA_SCHEMA.validateSync(data)
+    return MOVIE_REVIEW_METADATA_VALIDATOR(data)
   } else if (data.type === 'music') {
-    return MUSIC_REVIEW_METADATA_SCHEMA.validateSync(data)
+    return MUSIC_REVIEW_METADATA_VALIDATOR(data)
   }
 
   throw new Error('Invalid metadata')

@@ -53,6 +53,7 @@ export async function fetchSpotifyAlbum(
       rating: 0,
       coverImage: album.images[0].url,
       genres: album.genres,
+      quote: '',
       ...partialData,
       tracks: partialData.tracks.map((track) => {
         const spotifyTrack = album.tracks.items.find(
