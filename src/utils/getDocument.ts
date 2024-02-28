@@ -7,17 +7,20 @@ import matter from 'gray-matter'
 
 import readingTime from 'reading-time'
 
+import { Validator } from '@utils/getDocuments'
+
 export interface StaticBaseProps<TMetadata = Record<string, any>> {
   source: MDXRemoteSerializeResult
   metadata: TMetadata
   readingTime: ReturnType<typeof readingTime>
 }
 
-export async function getDocument<TMetadata = Record<string, any>>(
+export async function getDocument<T>(
   directory: string,
   name: string,
+  metadataValidator: Validator<T>,
   locale?: string,
-): Promise<StaticBaseProps<TMetadata>> {
+): Promise<StaticBaseProps<T>> {
   const targetDirectory = path.join(process.cwd(), 'content', directory)
   const fullPath = path.join(targetDirectory, `${name}.${locale ?? 'ko'}.mdx`)
   const fileContents = fs.readFileSync(fullPath, 'utf8')
@@ -26,10 +29,11 @@ export async function getDocument<TMetadata = Record<string, any>>(
 
   const { content, data } = matter(fileContents)
   const mdxSource = await serialize(content, { scope: data })
+  const metadata = metadataValidator(data)
 
   return {
     source: mdxSource,
-    metadata: data as TMetadata,
+    metadata,
     readingTime: time,
   }
 }

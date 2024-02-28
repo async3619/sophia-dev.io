@@ -1,11 +1,13 @@
-import { Blog } from '@utils/getDocuments'
-
-import * as Styled from './BlogList.styled'
 import dayjs from 'dayjs'
+
 import { Stack, Typography } from '@mui/material'
 
+import { BlogPostDocument } from '@constants/blog'
+
+import * as Styled from './BlogList.styled'
+
 export interface BlogListProps {
-  blogs: Blog[]
+  blogs: BlogPostDocument[]
   emptyText?: string
 }
 

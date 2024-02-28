@@ -1,39 +1,47 @@
+import dayjs from 'dayjs'
 import React, { useMemo } from 'react'
 
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
 import useTranslation from 'next-translate/useTranslation'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 
-import dayjs from 'dayjs'
-
-import { Box } from '@mui/material'
-import { useColorScheme } from '@mui/material/styles'
 import Giscus from '@giscus/react'
+import { Box, Rating, Typography } from '@mui/material'
+import { useColorScheme } from '@mui/material/styles'
 
 import { Title } from '@components/Title'
-import { MDXRenderer } from '@components/MDXRenderer'
 import { BlogMetadata } from '@components/BlogMetadata'
+import { MDXRenderer } from '@components/MDXRenderer'
 
-import { BLOG_POST_METADATA_VALIDATOR, BlogPostMetadata } from '@constants/blog'
+import { ReviewTrackList } from '@components/Review/TrackList'
+import { AlbumInformation } from '@components/Review/AlbumInformation'
 
-import { getDocuments } from '@utils/getDocuments'
+import {
+  MUSIC_REVIEW_METADATA_VALIDATOR,
+  MusicReviewPostDocument,
+  REVIEW_POST_METADATA_VALIDATOR,
+} from '@constants/review'
+
 import { getDocument, StaticBaseProps } from '@utils/getDocument'
-import { isValidString } from '@utils/isValidString'
 import { getWebsiteBaseUrl } from '@utils/getWebsiteBaseUrl'
+import { isValidString } from '@utils/isValidString'
+import { getDocuments } from '@utils/getDocuments'
 
-interface PostPage extends StaticBaseProps<BlogPostMetadata> {
+interface ReviewPageProps
+  extends StaticBaseProps<MusicReviewPostDocument['metadata']> {
   cardUrl: string
 }
 
-export default function Post({
+export default function Review({
   source,
   metadata,
   readingTime,
   cardUrl,
-}: PostPage) {
+}: ReviewPageProps) {
   const { mode } = useColorScheme()
-  const { t } = useTranslation('blog')
+  const { t } = useTranslation('review')
   const { locale } = useRouter()
   const formattedDate = useMemo(() => {
     if (!locale) {
@@ -48,19 +56,17 @@ export default function Post({
     return null
   }
 
+  const title = `[${metadata.title}] ${t('title')}`
+
   return (
     <div>
       <Head>
         <meta name="og:image" content={cardUrl} />
-        <meta
-          name="og:description"
-          content={metadata.excerpt || metadata.title}
-        />
-        <meta name="twitter:title" content={metadata.title} />
-        <meta name="twitter:description" content={metadata.excerpt} />
+        <meta name="og:description" content={title} />
+        <meta name="twitter:title" content={title} />
         <meta name="twitter:image" content={cardUrl} />
       </Head>
-      <Title withoutMargin>{metadata.title}</Title>
+      <Title withoutMargin>{title}</Title>
       <Box mt={1} mb="1.3125rem">
         <BlogMetadata
           tokens={[
@@ -69,7 +75,37 @@ export default function Post({
           ]}
         />
       </Box>
-      <MDXRenderer source={source} />
+      <Box display="flex" mb={2} justifyContent="center">
+        <Image src={metadata.coverImage} width={250} height={250} alt="" />
+      </Box>
+      <Box display="flex" mb={2} justifyContent="center">
+        <Rating defaultValue={metadata.rating / 2} precision={0.5} readOnly />
+      </Box>
+      <AlbumInformation metadata={metadata} />
+      <Box component="section">
+        <Typography
+          variant="h4"
+          fontSize="1.25rem"
+          fontWeight={700}
+          lineHeight={1.6}
+          sx={{ mb: '0.75em' }}
+        >
+          수록곡 📙
+        </Typography>
+        <ReviewTrackList tracks={metadata.tracks} />
+      </Box>
+      <Box component="section">
+        <Typography
+          variant="h4"
+          fontSize="1.25rem"
+          fontWeight={700}
+          lineHeight={1.6}
+          sx={{ mb: '0.75em' }}
+        >
+          감상평 💬
+        </Typography>
+        <MDXRenderer source={source} />
+      </Box>
       <Box mt={8}>
         <Giscus
           id="comments"
@@ -90,7 +126,7 @@ export default function Post({
   )
 }
 
-export const getStaticProps: GetStaticProps<PostPage> = async ({
+export const getStaticProps: GetStaticProps<ReviewPageProps> = async ({
   params,
   locale,
 }) => {
@@ -104,17 +140,16 @@ export const getStaticProps: GetStaticProps<PostPage> = async ({
   }
 
   const document = await getDocument(
-    'blog',
+    'review',
     slug,
-    BLOG_POST_METADATA_VALIDATOR,
+    MUSIC_REVIEW_METADATA_VALIDATOR,
     locale,
   )
 
-  const { excerpt, title } = document.metadata
+  const { title } = document.metadata
 
   const encodedTitle = encodeURIComponent(title)
-  const encodedDescription = encodeURIComponent(excerpt)
-  const openGraphImageUrl = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/blog-card?title=${encodedTitle}&description=${encodedDescription}&locale=${locale}`
+  const openGraphImageUrl = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/blog-card?title=${encodedTitle}&locale=${locale}`
 
   return {
     props: { ...document, cardUrl: openGraphImageUrl },
@@ -128,7 +163,12 @@ export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
 
   const results: { params: { slug: string }; locale: string }[] = []
   for (const locale of locales) {
-    const documents = getDocuments('blog', BLOG_POST_METADATA_VALIDATOR, locale)
+    const documents = getDocuments(
+      'review',
+      REVIEW_POST_METADATA_VALIDATOR,
+      locale,
+    )
+
     const paths = documents.map((document) => ({
       params: { slug: document.slug },
       locale,

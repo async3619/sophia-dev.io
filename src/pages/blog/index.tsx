@@ -7,10 +7,12 @@ import useTranslation from 'next-translate/useTranslation'
 import { Title } from '@components/Title'
 import { BlogList } from '@components/BlogList'
 
-import { getDocuments, Blog } from '@utils/getDocuments'
+import { BLOG_POST_METADATA_VALIDATOR, BlogPostDocument } from '@constants/blog'
+
+import { getDocuments } from '@utils/getDocuments'
 
 interface BlogsPage {
-  blogs: Blog[]
+  blogs: BlogPostDocument[]
 }
 
 export default function Blogs({ blogs }: BlogsPage) {
@@ -25,7 +27,7 @@ export default function Blogs({ blogs }: BlogsPage) {
 }
 
 export const getStaticProps: GetStaticProps<BlogsPage> = async ({ locale }) => {
-  const documents = getDocuments('blog', locale)
+  const documents = getDocuments('blog', BLOG_POST_METADATA_VALIDATOR, locale)
 
   return {
     props: {

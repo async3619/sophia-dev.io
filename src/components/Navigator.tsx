@@ -10,6 +10,7 @@ interface RouteItem {
 const ROUTES: RouteItem[] = [
   { href: '/', label: '/home/' },
   { href: '/blog', label: '/blog/' },
+  { href: '/review', label: '/review/' },
 ]
 
 export function Navigator() {
