@@ -146,10 +146,11 @@ export const getStaticProps: GetStaticProps<ReviewPageProps> = async ({
     locale,
   )
 
-  const { title } = document.metadata
+  const { title, quote } = document.metadata
 
   const encodedTitle = encodeURIComponent(title)
-  const openGraphImageUrl = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/blog-card?title=${encodedTitle}&locale=${locale}`
+  const encodedQuote = encodeURIComponent(quote)
+  const openGraphImageUrl = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/review-card?title=${encodedTitle}&description=${encodedQuote}&locale=${locale}&slug=${slug}`
 
   return {
     props: { ...document, cardUrl: openGraphImageUrl },
