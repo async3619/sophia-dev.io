@@ -25,6 +25,7 @@ export function MovieReviewItem({ item }: MovieItemProps) {
         <Styled.Poster src={item.metadata.coverImage} />
       </Styled.Graphics>
       <ReviewItemMetadata
+        type="movie"
         title={`${title} (${releasedYear})`}
         rating={rating}
         createdAt={createdAt}

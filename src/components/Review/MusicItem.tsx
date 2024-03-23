@@ -24,6 +24,7 @@ export function MusicReviewItem({ item }: MusicItemProps) {
         <Styled.Open />
       </Styled.Graphics>
       <ReviewItemMetadata
+        type="album"
         title={title}
         rating={rating}
         createdAt={createdAt}
