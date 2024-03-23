@@ -13,15 +13,11 @@ import {
 import { GetStaticPaths, GetStaticProps } from 'next'
 import useTranslation from 'next-translate/useTranslation'
 import { useRouter } from 'next/router'
-import Image from 'next/image'
 
-import { Box, Rating, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 
-import { BlogMetadata } from '@components/BlogMetadata'
 import { ReviewPageBase } from '@components/Review/PageBase'
 import { MovieInformation } from '@components/Review/MovieInformation'
-
-import { useFormattedDate } from '@hooks/useFormattedDate'
 
 import {
   MOVIE_REVIEW_METADATA_VALIDATOR,
@@ -46,7 +42,6 @@ export default function MovieReview({
 }: MovieReviewPageProps) {
   const { t } = useTranslation('review')
   const { locale } = useRouter()
-  const formattedDate = useFormattedDate(metadata.createdAt)
 
   const ratingData = useMemo(() => {
     return metadata.ratings.map((rating, i) => ({
@@ -62,32 +57,15 @@ export default function MovieReview({
   const year = dayjs(metadata.releasedAt, 'YYYY-MM-DD').format('YYYY')
   const title = `[${metadata.title} (${year})] ${t('title')}`
 
-  const posterWidth = 250
-  const posterHeight = Math.round(
-    (metadata.posterHeight / metadata.posterWidth) * posterWidth,
-  )
-
   return (
-    <ReviewPageBase title={title} cardUrl={cardUrl} source={source}>
-      <Box mt={1} mb="1.3125rem">
-        <BlogMetadata
-          tokens={[
-            formattedDate,
-            t('readingTime', { count: Math.ceil(readingTime.minutes) }),
-          ]}
-        />
-      </Box>
-      <Box display="flex" mb={2} justifyContent="center">
-        <Image
-          src={metadata.coverImage}
-          width={posterWidth}
-          height={posterHeight}
-          alt={metadata.title}
-        />
-      </Box>
-      <Box display="flex" mb={2} justifyContent="center">
-        <Rating defaultValue={metadata.rating / 2} precision={0.5} readOnly />
-      </Box>
+    <ReviewPageBase
+      title={title}
+      cardUrl={cardUrl}
+      source={source}
+      readingTime={readingTime.minutes}
+      metadata={metadata}
+      coverImageAspectRatio={metadata.posterHeight / metadata.posterWidth}
+    >
       <MovieInformation metadata={metadata} />
       <Box component="section">
         <Typography

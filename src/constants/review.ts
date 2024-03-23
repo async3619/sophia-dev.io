@@ -2,7 +2,7 @@ import * as yup from 'yup'
 import { Document } from '@utils/getDocuments'
 import { createValidatorFromSchema } from '@utils/createValidatorFromSchema'
 
-interface BaseReviewPostMetadata extends yup.AnyObject {
+export interface BaseReviewPostMetadata extends yup.AnyObject {
   title: string
   createdAt: string
   releasedAt: string

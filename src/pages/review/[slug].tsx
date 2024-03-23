@@ -1,23 +1,14 @@
 import React from 'react'
 
 import { GetStaticPaths, GetStaticProps } from 'next'
-import Head from 'next/head'
 import useTranslation from 'next-translate/useTranslation'
 import { useRouter } from 'next/router'
-import Image from 'next/image'
 
-import Giscus from '@giscus/react'
-import { Box, Rating, Typography } from '@mui/material'
-import { useColorScheme } from '@mui/material/styles'
-
-import { Title } from '@components/Title'
-import { BlogMetadata } from '@components/BlogMetadata'
-import { MDXRenderer } from '@components/MDXRenderer'
+import { Box, Typography } from '@mui/material'
 
 import { ReviewTrackList } from '@components/Review/TrackList'
 import { AlbumInformation } from '@components/Review/AlbumInformation'
-
-import { useFormattedDate } from '@hooks/useFormattedDate'
+import { ReviewPageBase } from '@components/Review/PageBase'
 
 import {
   MUSIC_REVIEW_METADATA_VALIDATOR,
@@ -26,7 +17,6 @@ import {
 } from '@constants/review'
 
 import { getDocument, StaticBaseProps } from '@utils/getDocument'
-import { getWebsiteBaseUrl } from '@utils/getWebsiteBaseUrl'
 import { isValidString } from '@utils/isValidString'
 import { getDocuments } from '@utils/getDocuments'
 
@@ -41,10 +31,8 @@ export default function Review({
   readingTime,
   cardUrl,
 }: ReviewPageProps) {
-  const { mode } = useColorScheme()
   const { t } = useTranslation('review')
   const { locale } = useRouter()
-  const formattedDate = useFormattedDate(metadata.createdAt)
 
   if (!locale) {
     return null
@@ -53,28 +41,13 @@ export default function Review({
   const title = `[${metadata.title}] ${t('title')}`
 
   return (
-    <div>
-      <Head>
-        <meta name="og:image" content={cardUrl} />
-        <meta name="og:description" content={title} />
-        <meta name="twitter:title" content={title} />
-        <meta name="twitter:image" content={cardUrl} />
-      </Head>
-      <Title withoutMargin>{title}</Title>
-      <Box mt={1} mb="1.3125rem">
-        <BlogMetadata
-          tokens={[
-            formattedDate,
-            t('readingTime', { count: Math.ceil(readingTime.minutes) }),
-          ]}
-        />
-      </Box>
-      <Box display="flex" mb={2} justifyContent="center">
-        <Image src={metadata.coverImage} width={250} height={250} alt="" />
-      </Box>
-      <Box display="flex" mb={2} justifyContent="center">
-        <Rating defaultValue={metadata.rating / 2} precision={0.5} readOnly />
-      </Box>
+    <ReviewPageBase
+      source={source}
+      cardUrl={cardUrl}
+      title={title}
+      readingTime={readingTime.minutes}
+      metadata={metadata}
+    >
       <AlbumInformation metadata={metadata} />
       <Box component="section">
         <Typography
@@ -88,35 +61,7 @@ export default function Review({
         </Typography>
         <ReviewTrackList tracks={metadata.tracks} />
       </Box>
-      <Box component="section">
-        <Typography
-          variant="h4"
-          fontSize="1.25rem"
-          fontWeight={700}
-          lineHeight={1.6}
-          sx={{ mb: '0.75em' }}
-        >
-          감상평 💬
-        </Typography>
-        <MDXRenderer source={source} />
-      </Box>
-      <Box mt={8}>
-        <Giscus
-          id="comments"
-          repo="async3619/sophia-dev.io"
-          repoId="R_kgDOLKrNrA"
-          category="General"
-          categoryId="DIC_kwDOLKrNrM4CdEVh"
-          mapping="title"
-          strict="0"
-          reactionsEnabled="0"
-          emitMetadata="0"
-          inputPosition="top"
-          theme={`${getWebsiteBaseUrl(true)}/giscus-${mode}.css`}
-          lang={locale}
-        />
-      </Box>
-    </div>
+    </ReviewPageBase>
   )
 }
 
