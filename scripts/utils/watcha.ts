@@ -151,7 +151,9 @@ async function fetchMovie(
 
 export async function fetchWatchaMovieData(
   watchaUrl: string,
-): Promise<[MovieReviewMetadata, string]> {
+): Promise<
+  [Omit<MovieReviewMetadata, 'posterWidth' | 'posterHeight'>, string]
+> {
   if (!WATCHA_URL_REGEX.test(watchaUrl)) {
     throw new Error('Invalid watcha URL')
   }

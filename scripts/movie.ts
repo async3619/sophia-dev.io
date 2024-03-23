@@ -3,6 +3,7 @@ import path from 'path'
 import fs from 'fs-extra'
 import fetch from 'node-fetch'
 import yaml from 'yaml'
+import sharp from 'sharp'
 
 const POSTER_PATH = path.join(
   process.cwd(),
@@ -49,7 +50,18 @@ async function main() {
   metadata.coverImage = `/static/review/poster/${slug}.jpg`
   metadata.headerImage = `/static/review/header/${slug}.jpg`
 
-  const metadataString = yaml.stringify(metadata, {
+  const posterMetadata = await sharp(posterPath).metadata()
+  if (!posterMetadata.width || !posterMetadata.height) {
+    throw new Error('Invalid poster metadata')
+  }
+
+  const fullMetadata = {
+    ...metadata,
+    posterWidth: posterMetadata.width,
+    posterHeight: posterMetadata.height,
+  }
+
+  const metadataString = yaml.stringify(fullMetadata, {
     defaultKeyType: 'PLAIN',
     defaultStringType: 'QUOTE_DOUBLE',
   })
