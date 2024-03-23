@@ -1,66 +1,74 @@
-import React from 'react'
+import dayjs from 'dayjs'
+import React, { useMemo } from 'react'
+import {
+  CartesianGrid,
+  Legend,
+  XAxis,
+  Area,
+  Tooltip,
+  AreaChart,
+  ResponsiveContainer,
+} from 'recharts'
 
 import { GetStaticPaths, GetStaticProps } from 'next'
-import Head from 'next/head'
 import useTranslation from 'next-translate/useTranslation'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 
-import Giscus from '@giscus/react'
 import { Box, Rating, Typography } from '@mui/material'
-import { useColorScheme } from '@mui/material/styles'
 
-import { Title } from '@components/Title'
 import { BlogMetadata } from '@components/BlogMetadata'
-import { MDXRenderer } from '@components/MDXRenderer'
-
-import { ReviewTrackList } from '@components/Review/TrackList'
-import { AlbumInformation } from '@components/Review/AlbumInformation'
+import { ReviewPageBase } from '@components/Review/PageBase'
+import { MovieInformation } from '@components/Review/MovieInformation'
 
 import { useFormattedDate } from '@hooks/useFormattedDate'
 
 import {
-  MUSIC_REVIEW_METADATA_VALIDATOR,
-  MusicReviewPostDocument,
+  MOVIE_REVIEW_METADATA_VALIDATOR,
+  MovieReviewPostDocument,
   REVIEW_POST_METADATA_VALIDATOR,
 } from '@constants/review'
 
 import { getDocument, StaticBaseProps } from '@utils/getDocument'
-import { getWebsiteBaseUrl } from '@utils/getWebsiteBaseUrl'
 import { isValidString } from '@utils/isValidString'
 import { getDocuments } from '@utils/getDocuments'
 
-interface ReviewPageProps
-  extends StaticBaseProps<MusicReviewPostDocument['metadata']> {
+interface MovieReviewPageProps
+  extends StaticBaseProps<MovieReviewPostDocument['metadata']> {
   cardUrl: string
 }
 
-export default function Review({
+export default function MovieReview({
   source,
   metadata,
   readingTime,
   cardUrl,
-}: ReviewPageProps) {
-  const { mode } = useColorScheme()
+}: MovieReviewPageProps) {
   const { t } = useTranslation('review')
   const { locale } = useRouter()
   const formattedDate = useFormattedDate(metadata.createdAt)
+
+  const ratingData = useMemo(() => {
+    return metadata.ratings.map((rating, i) => ({
+      name: (i + 1) / 2,
+      Watcha: rating,
+    }))
+  }, [metadata])
 
   if (!locale) {
     return null
   }
 
-  const title = `[${metadata.title}] ${t('title')}`
+  const year = dayjs(metadata.releasedAt, 'YYYY-MM-DD').format('YYYY')
+  const title = `[${metadata.title} (${year})] ${t('title')}`
+
+  const posterWidth = 250
+  const posterHeight = Math.round(
+    (metadata.posterHeight / metadata.posterWidth) * posterWidth,
+  )
 
   return (
-    <div>
-      <Head>
-        <meta name="og:image" content={cardUrl} />
-        <meta name="og:description" content={title} />
-        <meta name="twitter:title" content={title} />
-        <meta name="twitter:image" content={cardUrl} />
-      </Head>
-      <Title withoutMargin>{title}</Title>
+    <ReviewPageBase title={title} cardUrl={cardUrl} source={source}>
       <Box mt={1} mb="1.3125rem">
         <BlogMetadata
           tokens={[
@@ -70,12 +78,17 @@ export default function Review({
         />
       </Box>
       <Box display="flex" mb={2} justifyContent="center">
-        <Image src={metadata.coverImage} width={250} height={250} alt="" />
+        <Image
+          src={metadata.coverImage}
+          width={posterWidth}
+          height={posterHeight}
+          alt={metadata.title}
+        />
       </Box>
       <Box display="flex" mb={2} justifyContent="center">
         <Rating defaultValue={metadata.rating / 2} precision={0.5} readOnly />
       </Box>
-      <AlbumInformation metadata={metadata} />
+      <MovieInformation metadata={metadata} />
       <Box component="section">
         <Typography
           variant="h4"
@@ -84,43 +97,39 @@ export default function Review({
           lineHeight={1.6}
           sx={{ mb: '0.75em' }}
         >
-          수록곡 📙
+          영화 평점 📈
         </Typography>
-        <ReviewTrackList tracks={metadata.tracks} />
+        <Box sx={{ aspectRatio: '16 / 9' }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart
+              data={ratingData}
+              margin={{
+                top: 0,
+                right: 16,
+                left: 16,
+                bottom: 16,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <Tooltip />
+              <Legend />
+              <Area
+                type="monotone"
+                dataKey="Watcha"
+                stroke="#ff0558"
+                fill="#ff0558"
+                fillOpacity={0.2}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </Box>
       </Box>
-      <Box component="section">
-        <Typography
-          variant="h4"
-          fontSize="1.25rem"
-          fontWeight={700}
-          lineHeight={1.6}
-          sx={{ mb: '0.75em' }}
-        >
-          감상평 💬
-        </Typography>
-        <MDXRenderer source={source} />
-      </Box>
-      <Box mt={8}>
-        <Giscus
-          id="comments"
-          repo="async3619/sophia-dev.io"
-          repoId="R_kgDOLKrNrA"
-          category="General"
-          categoryId="DIC_kwDOLKrNrM4CdEVh"
-          mapping="title"
-          strict="0"
-          reactionsEnabled="0"
-          emitMetadata="0"
-          inputPosition="top"
-          theme={`${getWebsiteBaseUrl(true)}/giscus-${mode}.css`}
-          lang={locale}
-        />
-      </Box>
-    </div>
+    </ReviewPageBase>
   )
 }
 
-export const getStaticProps: GetStaticProps<ReviewPageProps> = async ({
+export const getStaticProps: GetStaticProps<MovieReviewPageProps> = async ({
   params,
   locale,
 }) => {
@@ -136,7 +145,7 @@ export const getStaticProps: GetStaticProps<ReviewPageProps> = async ({
   const document = await getDocument(
     'review',
     slug,
-    MUSIC_REVIEW_METADATA_VALIDATOR,
+    MOVIE_REVIEW_METADATA_VALIDATOR,
     locale,
   )
 

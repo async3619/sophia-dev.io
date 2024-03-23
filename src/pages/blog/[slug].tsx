@@ -1,11 +1,9 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
 import useTranslation from 'next-translate/useTranslation'
 import { useRouter } from 'next/router'
-
-import dayjs from 'dayjs'
 
 import { Box } from '@mui/material'
 import { useColorScheme } from '@mui/material/styles'
@@ -14,6 +12,8 @@ import Giscus from '@giscus/react'
 import { Title } from '@components/Title'
 import { MDXRenderer } from '@components/MDXRenderer'
 import { BlogMetadata } from '@components/BlogMetadata'
+
+import { useFormattedDate } from '@hooks/useFormattedDate'
 
 import { BLOG_POST_METADATA_VALIDATOR, BlogPostMetadata } from '@constants/blog'
 
@@ -35,14 +35,7 @@ export default function Post({
   const { mode } = useColorScheme()
   const { t } = useTranslation('blog')
   const { locale } = useRouter()
-  const formattedDate = useMemo(() => {
-    if (!locale) {
-      throw new Error('locale is not defined')
-    }
-
-    const date = dayjs(metadata.createdAt, 'YYYY-MM-DD HH:mm:ss').toDate()
-    return new Intl.DateTimeFormat(locale, { dateStyle: 'long' }).format(date)
-  }, [metadata.createdAt, locale])
+  const formattedDate = useFormattedDate(metadata.createdAt)
 
   if (!locale) {
     return null

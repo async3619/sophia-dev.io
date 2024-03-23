@@ -20,6 +20,8 @@ export interface MovieReviewMetadata extends BaseReviewPostMetadata {
   ratings: number[]
   duration: number
   headerImage: string
+  posterWidth: number
+  posterHeight: number
 }
 
 export interface MusicTrack {
@@ -68,6 +70,8 @@ const MOVIE_REVIEW_METADATA_SCHEMA = yup
     ratings: yup.array().of(yup.number().required()).required(),
     duration: yup.number().required(),
     headerImage: yup.string().required(),
+    posterWidth: yup.number().required(),
+    posterHeight: yup.number().required(),
   })
   .required()
 
