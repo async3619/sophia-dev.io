@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "album": "TS_NODE_PROJECT=./tsconfig.node.json ts-node ./scripts/album.ts",
-    "album:dev": "TS_NODE_PROJECT=./tsconfig.node.json node --watch -r ts-node/register ./scripts/album.ts"
+    "album:dev": "TS_NODE_PROJECT=./tsconfig.node.json node --watch -r ts-node/register ./scripts/album.ts",
+    "movie": "TS_NODE_PROJECT=./tsconfig.node.json ts-node ./scripts/movie.ts",
+    "movie:dev": "TS_NODE_PROJECT=./tsconfig.node.json node --watch -r ts-node/register ./scripts/movie.ts"
   },
   "dependencies": {
     "@channel.io/channel-web-sdk-loader": "^1.1.7",
