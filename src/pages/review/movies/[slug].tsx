@@ -121,7 +121,7 @@ export const getStaticProps: GetStaticProps<MovieReviewPageProps> = async ({
   }
 
   const document = await getDocument(
-    'review',
+    'review/movies',
     slug,
     MOVIE_REVIEW_METADATA_VALIDATOR,
     locale,
