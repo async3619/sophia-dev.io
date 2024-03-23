@@ -7,7 +7,8 @@ import useTranslation from 'next-translate/useTranslation'
 import { Title } from '@components/Title'
 
 import {
-  REVIEW_POST_METADATA_VALIDATOR,
+  MOVIE_REVIEW_METADATA_VALIDATOR,
+  MUSIC_REVIEW_METADATA_VALIDATOR,
   ReviewPostDocument,
 } from '@constants/review'
 
@@ -32,15 +33,21 @@ export default function Reviews({ reviews }: ReviewsPage) {
 export const getStaticProps: GetStaticProps<ReviewsPage> = async ({
   locale,
 }) => {
-  const documents = getDocuments(
-    'review',
-    REVIEW_POST_METADATA_VALIDATOR,
+  const musicReviews = getDocuments(
+    'review/albums',
+    MUSIC_REVIEW_METADATA_VALIDATOR,
+    locale,
+  )
+
+  const movieReviews = getDocuments(
+    'review/movies',
+    MOVIE_REVIEW_METADATA_VALIDATOR,
     locale,
   )
 
   return {
     props: {
-      reviews: _.chain(documents)
+      reviews: _.chain([...musicReviews, ...movieReviews])
         .orderBy(
           (document) =>
             dayjs(document.metadata.createdAt, 'YYYY-MM-DD HH:mm:ss').unix(),

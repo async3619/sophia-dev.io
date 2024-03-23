@@ -79,7 +79,7 @@ export const getStaticProps: GetStaticProps<ReviewPageProps> = async ({
   }
 
   const document = await getDocument(
-    'review',
+    'review/albums',
     slug,
     MUSIC_REVIEW_METADATA_VALIDATOR,
     locale,
@@ -104,7 +104,7 @@ export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
   const results: { params: { slug: string }; locale: string }[] = []
   for (const locale of locales) {
     const documents = getDocuments(
-      'review',
+      'review/albums',
       REVIEW_POST_METADATA_VALIDATOR,
       locale,
     )

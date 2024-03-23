@@ -71,6 +71,7 @@ async function main() {
     process.cwd(),
     'content',
     'review',
+    'movies',
     `${slug}.ko.mdx`,
   )
 

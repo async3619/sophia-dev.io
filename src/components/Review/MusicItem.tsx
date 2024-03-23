@@ -12,7 +12,10 @@ export function MusicReviewItem({ item }: MusicItemProps) {
   const { title, rating, createdAt, artists, coverImage } = item.metadata
 
   return (
-    <Styled.Root href="/review/[slug]" as={`/review/${item.slug}`}>
+    <Styled.Root
+      href="/review/albums/[slug]"
+      as={`/review/albums/${item.slug}`}
+    >
       <Styled.Graphics>
         <Styled.Art style={{ backgroundImage: `url(${coverImage})` }} />
         <Styled.Background />

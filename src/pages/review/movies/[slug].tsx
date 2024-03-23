@@ -146,7 +146,7 @@ export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
   const results: { params: { slug: string }; locale: string }[] = []
   for (const locale of locales) {
     const documents = getDocuments(
-      'review',
+      'review/movies',
       REVIEW_POST_METADATA_VALIDATOR,
       locale,
     )
