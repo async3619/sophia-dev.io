@@ -18,6 +18,7 @@
       "@styles/*": ["./src/styles/*"],
       "@constants/*": ["./src/constants/*"],
       "@utils/*": ["./src/utils/*"],
+      "@hooks/*": ["./src/hooks/*"],
     },
   },
   "include": ["next-env.d.ts", "src/**/*.ts", "src/**/*.tsx"],

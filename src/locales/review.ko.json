@@ -3,5 +3,7 @@
   "readingTime": "읽는데 ${count}분",
   "empty": "리뷰 게시글이 없습니다",
   "track-list": "수록곡 \uD83D\uDCD9",
-  "review": "감상평 \uD83D\uDCAC"
+  "review": "감상평 \uD83D\uDCAC",
+  "movie": "영화",
+  "album": "앨범"
 }

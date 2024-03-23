@@ -2,7 +2,7 @@ import * as yup from 'yup'
 import { Document } from '@utils/getDocuments'
 import { createValidatorFromSchema } from '@utils/createValidatorFromSchema'
 
-interface BaseReviewPostMetadata extends yup.AnyObject {
+export interface BaseReviewPostMetadata extends yup.AnyObject {
   title: string
   createdAt: string
   releasedAt: string
@@ -12,10 +12,16 @@ interface BaseReviewPostMetadata extends yup.AnyObject {
   quote: string
 }
 
-interface MovieReviewMetadata extends BaseReviewPostMetadata {
+export interface MovieReviewMetadata extends BaseReviewPostMetadata {
   type: 'movie'
   directors: string[]
-  actors: string[]
+  mainActors: string[]
+  supportingActors: string[]
+  ratings: number[]
+  duration: number
+  headerImage: string
+  posterWidth: number
+  posterHeight: number
 }
 
 export interface MusicTrack {
@@ -59,7 +65,13 @@ const MOVIE_REVIEW_METADATA_SCHEMA = yup
     ...baseShape(),
     type: yup.string<'movie'>().required().oneOf(['movie']),
     directors: yup.array().of(yup.string().required()).required(),
-    actors: yup.array().of(yup.string().required()).required(),
+    mainActors: yup.array().of(yup.string().required()).required(),
+    supportingActors: yup.array().of(yup.string().required()).required(),
+    ratings: yup.array().of(yup.number().required()).required(),
+    duration: yup.number().required(),
+    headerImage: yup.string().required(),
+    posterWidth: yup.number().required(),
+    posterHeight: yup.number().required(),
   })
   .required()
 

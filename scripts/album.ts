@@ -7,7 +7,7 @@ import { fetchBugsAlbumData, getBugsUrlArgument } from './utils/bugs'
 import { fetchSpotifyAlbum, getSpotifyUrlArgument } from './utils/spotify'
 
 const ALBUM_ART_PATH = path.join(process.cwd(), 'public', 'static', 'review')
-const REVIEW_PATH = path.join(process.cwd(), 'content', 'review')
+const REVIEW_PATH = path.join(process.cwd(), 'content', 'review', 'albums')
 
 async function main() {
   const bugsAlbumUrl = getBugsUrlArgument()
