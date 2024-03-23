@@ -44,7 +44,7 @@ export default async function handler(request: NextRequest) {
             top: '50%',
             left: '0',
             transform: 'translateY(-50%)',
-            filter: 'blur(20px) brightness(0.25) grayscale(0.75)',
+            filter: 'blur(5px) brightness(0.25) grayscale(0.75)',
           }}
         />
         <div
