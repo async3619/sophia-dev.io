@@ -9,7 +9,6 @@ export default function Document() {
         {getInitColorSchemeScript()}
         <Main />
         <NextScript />
-        <div id="backdrop-root" />
       </body>
     </Html>
   )

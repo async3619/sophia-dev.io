@@ -1,5 +1,3 @@
-import ReactDOM from 'react-dom'
-
 import { useRouter } from 'next/router'
 
 import { Stack, Typography } from '@mui/material'
@@ -44,40 +42,39 @@ export function Navigator() {
   }, [closeMenu])
 
   return (
-    <Styled.Root>
-      <Stack direction="column" spacing={1}>
-        {ROUTES.map(({ href, label, description }) => {
-          const content = (
-            <>
-              <span>{label}</span>
-              <Styled.Spacer />
-              <Typography
-                variant="body2"
-                color="textSecondary"
-                whiteSpace="nowrap"
-              >
-                {description}
-              </Typography>
-            </>
-          )
-
-          if (asPath === href) {
-            return (
-              <Styled.SelectedItem key={href}>{content}</Styled.SelectedItem>
+    <>
+      <Styled.Root>
+        <Stack direction="column" spacing={1}>
+          {ROUTES.map(({ href, label, description }) => {
+            const content = (
+              <>
+                <span>{label}</span>
+                <Styled.Spacer />
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  whiteSpace="nowrap"
+                >
+                  {description}
+                </Typography>
+              </>
             )
-          }
 
-          return (
-            <Styled.Item key={href} href={href}>
-              {content}
-            </Styled.Item>
-          )
-        })}
-      </Stack>
-      {ReactDOM.createPortal(
-        <Styled.Backdrop onMouseDown={closeMenu} />,
-        document.getElementById('backdrop-root')!,
-      )}
-    </Styled.Root>
+            if (asPath === href) {
+              return (
+                <Styled.SelectedItem key={href}>{content}</Styled.SelectedItem>
+              )
+            }
+
+            return (
+              <Styled.Item key={href} href={href}>
+                {content}
+              </Styled.Item>
+            )
+          })}
+        </Stack>
+      </Styled.Root>
+      <Styled.Backdrop onMouseDown={closeMenu} />
+    </>
   )
 }
