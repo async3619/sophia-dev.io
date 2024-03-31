@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import useTranslation from 'next-translate/useTranslation'
@@ -28,7 +28,7 @@ export function Title({ children, withoutMargin, main }: TitleProps) {
   useEffect(() => {
     setTitleIntersecting(isTitleIntersecting)
     setCurrentTitle(children)
-  }, [isTitleIntersecting, children])
+  }, [isTitleIntersecting, children, setTitleIntersecting, setCurrentTitle])
 
   return (
     <>
