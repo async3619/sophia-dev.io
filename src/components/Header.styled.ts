@@ -23,6 +23,7 @@ export const Root = styled.nav<Props>`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  overflow: hidden;
 
   background-color: ${({ theme }) =>
     `rgba(${theme.vars.palette.background.defaultChannel} / 0.5)`};
@@ -48,8 +49,23 @@ export const Root = styled.nav<Props>`
       ${({ theme, stick }) => (stick ? theme.palette.divider : 'transparent')};
   }
 
-  > a:first-child {
+  .title {
     color: ${({ theme }) => theme.palette.text.primary};
     text-decoration: none;
+  }
+`
+
+export const TitleContainer = styled.div`
+  width: 300px;
+
+  position: relative;
+  display: flex;
+
+  > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    transform: translateY(-50%);
   }
 `
