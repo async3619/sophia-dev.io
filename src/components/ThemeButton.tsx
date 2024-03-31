@@ -1,10 +1,12 @@
 import React from 'react'
 
-import { Box, Fade, IconButton, Tooltip } from '@mui/material'
+import { Box, Fade, Tooltip } from '@mui/material'
 import { useColorScheme } from '@mui/material/styles'
 
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import Brightness7Icon from '@mui/icons-material/Brightness7'
+
+import { Button } from './ThemeButton.styled'
 
 export function ThemeButton() {
   const { mode, setMode } = useColorScheme()
@@ -26,9 +28,13 @@ export function ThemeButton() {
   return (
     <Tooltip title={isDarkMode ? '다크 모드 끄기' : '다크 모드 켜기'}>
       <Fade in={mounted}>
-        <IconButton onClick={handleSetModeClick}>
-          {!isDarkMode ? <DarkModeIcon /> : <Brightness7Icon />}
-        </IconButton>
+        <Button onClick={handleSetModeClick} size="small">
+          {!isDarkMode ? (
+            <DarkModeIcon fontSize="small" />
+          ) : (
+            <Brightness7Icon fontSize="small" />
+          )}
+        </Button>
       </Fade>
     </Tooltip>
   )
