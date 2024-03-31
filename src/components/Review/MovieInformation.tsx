@@ -33,7 +33,7 @@ export function MovieInformation({ metadata }: MovieInformationProps) {
       <table>
         <tbody>
           <tr>
-            <th>앨범명</th>
+            <th>영화 이름</th>
             <td>{metadata.title}</td>
           </tr>
           <tr>
