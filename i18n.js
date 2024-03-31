@@ -7,6 +7,7 @@ module.exports = {
     '/blog/[slug]': ['blog'],
     '/review': ['review'],
     '/review/[slug]': ['review'],
+    '/review/albums/[slug]': ['review'],
     '/review/movies/[slug]': ['review'],
   },
   interpolation: {
