@@ -19,6 +19,7 @@
       "@constants/*": ["./src/constants/*"],
       "@utils/*": ["./src/utils/*"],
       "@hooks/*": ["./src/hooks/*"],
+      "@stores/*": ["./src/stores/*"],
     },
   },
   "include": ["next-env.d.ts", "src/**/*.ts", "src/**/*.tsx"],

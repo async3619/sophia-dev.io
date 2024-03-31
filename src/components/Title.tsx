@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
+import useTranslation from 'next-translate/useTranslation'
 
 import { Typography } from '@mui/material'
-import useTranslation from 'next-translate/useTranslation'
-import { useRouter } from 'next/router'
+import { useIntersection } from '@hooks/useIntersection'
+import { useUIStore } from '@stores/ui'
 
 export interface TitleProps {
   children: string
@@ -14,11 +16,19 @@ export interface TitleProps {
 export function Title({ children, withoutMargin, main }: TitleProps) {
   const { t } = useTranslation('common')
   const { asPath } = useRouter()
+  const [titleRef, isTitleIntersecting] = useIntersection<HTMLElement>()
+  const setTitleIntersecting = useUIStore((state) => state.setTitleIntersecting)
+  const setCurrentTitle = useUIStore((state) => state.setCurrentTitle)
 
   let title = children
   if (!main) {
     title = title + ' - ' + t('title')
   }
+
+  useEffect(() => {
+    setTitleIntersecting(isTitleIntersecting)
+    setCurrentTitle(children)
+  }, [isTitleIntersecting, children, setTitleIntersecting, setCurrentTitle])
 
   return (
     <>
@@ -30,6 +40,7 @@ export function Title({ children, withoutMargin, main }: TitleProps) {
         <meta name="og:url" content={`https://sophia-dev.io${asPath}`} />
       </Head>
       <Typography
+        ref={titleRef}
         variant="h2"
         fontWeight={700}
         fontSize="1.75rem"
