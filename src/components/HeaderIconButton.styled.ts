@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import { IconButton } from '@mui/material'
 
-export const Button = styled(IconButton)`
+export const Root = styled(IconButton)`
   border-radius: ${({ theme }) => theme.shape.borderRadius * 2}px;
   border: 1px solid;
 

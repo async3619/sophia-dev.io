@@ -1,12 +1,12 @@
 import React from 'react'
 
-import { Box, Fade, Tooltip } from '@mui/material'
+import { Box, Fade } from '@mui/material'
 import { useColorScheme } from '@mui/material/styles'
 
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import Brightness7Icon from '@mui/icons-material/Brightness7'
 
-import { Button } from './ThemeButton.styled'
+import { HeaderIconButton } from '@components/HeaderIconButton'
 
 export function ThemeButton() {
   const { mode, setMode } = useColorScheme()
@@ -26,16 +26,17 @@ export function ThemeButton() {
   }
 
   return (
-    <Tooltip title={isDarkMode ? '다크 모드 끄기' : '다크 모드 켜기'}>
-      <Fade in={mounted}>
-        <Button onClick={handleSetModeClick} size="small">
-          {!isDarkMode ? (
-            <DarkModeIcon fontSize="small" />
-          ) : (
-            <Brightness7Icon fontSize="small" />
-          )}
-        </Button>
-      </Fade>
-    </Tooltip>
+    <Fade in={mounted}>
+      <HeaderIconButton
+        tooltip={isDarkMode ? '다크 모드 끄기' : '다크 모드 켜기'}
+        onClick={handleSetModeClick}
+      >
+        {!isDarkMode ? (
+          <DarkModeIcon fontSize="small" />
+        ) : (
+          <Brightness7Icon fontSize="small" />
+        )}
+      </HeaderIconButton>
+    </Fade>
   )
 }

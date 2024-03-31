@@ -20,16 +20,15 @@ export const Root = styled.nav<Props>`
   z-index: ${({ theme }) => theme.zIndex.appBar};
 
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-between;
-  overflow: hidden;
 
   background-color: ${({ theme }) =>
     `rgba(${theme.vars.palette.background.defaultChannel} / 0.5)`};
   box-shadow: ${({ theme, stick }) => (stick ? theme.shadows[16] : 'none')};
 
-  backdrop-filter: ${({ stick }) =>
-    stick ? 'blur(20px) saturate(2.5)' : 'none'};
+  transition: ${({ theme }) =>
+    theme.transitions.create(['border-color', 'box-shadow', 'border-radius'])};
 
   ${({ theme }) => theme.getColorSchemeSelector('dark')} {
     border: 1px solid
@@ -48,46 +47,52 @@ export const Root = styled.nav<Props>`
 
   ${({ theme }) => theme.breakpoints.up('sm')} {
     top: ${({ theme }) => theme.spacing(STICKY_OFFSET)};
-
-    transition: ${({ theme }) =>
-      theme.transitions.create([
-        'border-color',
-        'box-shadow',
-        'backdrop-filter',
-      ])};
   }
 
   ${({ theme }) => theme.breakpoints.down('sm')} {
-    top: 0;
+    margin-left: ${({ theme }) => theme.spacing(-1)};
+    margin-right: ${({ theme }) => theme.spacing(-1)};
 
-    border-radius: ${({ theme, stick }) =>
-      stick ? 0 : theme.shape.borderRadius * 2}px;
+    padding: ${({ theme }) => theme.spacing(1)};
 
-    border-top-width: ${({ stick }) => (stick ? '0' : '1px')} !important;
-    border-left-width: ${({ stick }) => (stick ? '0' : '1px')} !important;
-    border-right-width: ${({ stick }) => (stick ? '0' : '1px')} !important;
+    top: ${({ theme }) => theme.spacing(1)};
+  }
 
-    transition: ${({ theme }) =>
-      theme.transitions.create([
-        'border-color',
-        'box-shadow',
-        'backdrop-filter',
-        'border-radius',
-      ])};
+  &::before {
+    content: '';
+
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
+
+    border-radius: ${({ theme }) => theme.shape.borderRadius * 2}px;
+
+    position: absolute;
+    top: 1px;
+    left: 1px;
+
+    backdrop-filter: ${({ stick }) =>
+      stick ? 'blur(20px) saturate(2.5)' : 'none'};
+
+    transition: ${({ theme }) => theme.transitions.create(['backdrop-filter'])};
   }
 `
 
 export const TitleContainer = styled.div`
-  width: 300px;
+  margin: ${({ theme }) => theme.spacing(0, 1)};
 
   position: relative;
   display: flex;
+  flex: 1 1 auto;
 
   > * {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 50%;
+    left: 50%;
 
-    transform: translateY(-50%);
+    transform: translate(-50%, -50%);
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `

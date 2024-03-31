@@ -10,22 +10,22 @@ export interface HeaderTextProps {
 }
 
 const transitionStyles: Record<string, React.CSSProperties> = {
-  entering: { opacity: 0, transform: 'translateY(100%) translateY(-50%)' },
-  entered: { opacity: 1, transform: 'translateY(0) translateY(-50%)' },
+  entering: { opacity: 0, transform: 'translateY(100%) translate(-50%, -50%)' },
+  entered: { opacity: 1, transform: 'translateY(0) translate(-50%, -50%)' },
   exiting: {
     opacity: 1,
-    transform: 'translateY(0) translateY(-50%)',
+    transform: 'translateY(0) translate(-50%, -50%)',
     pointerEvents: 'none',
     userSelect: 'none',
   },
   exited: {
     opacity: 0,
-    transform: 'translateY(-100%) translateY(-50%)',
+    transform: 'translateY(-100%) translate(-50%, -50%)',
     pointerEvents: 'none',
     userSelect: 'none',
   },
   unmounted: {
-    transform: 'translateY(100%) translateY(-50%)',
+    transform: 'translateY(100%) translate(-50%, -50%)',
     pointerEvents: 'none',
     userSelect: 'none',
   },
