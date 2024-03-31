@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import { Stack, Typography, useTheme } from '@mui/material'
 
@@ -20,6 +21,7 @@ export function Header({}: HeaderProps) {
   const [isStick, setIsStick] = useState(false)
   const isTitleIntersecting = useUIStore((state) => state.isTitleIntersecting)
   const currentTitle = useUIStore((state) => state.currentTitle)
+  const { pathname, asPath } = useRouter()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,7 +56,7 @@ export function Header({}: HeaderProps) {
           </Link>
         </HeaderText>
         <HeaderText enter={!isTitleIntersecting}>
-          <Link href="/" className="title">
+          <Link href={pathname} as={asPath} className="title">
             <Typography component="span" variant="body1" fontWeight={800}>
               {currentTitle || PAGE_DOMAIN}
             </Typography>

@@ -16,7 +16,6 @@ export const Root = styled.nav<Props>`
   border-radius: ${({ theme }) => theme.shape.borderRadius * 2}px;
 
   position: sticky;
-  top: ${({ theme }) => theme.spacing(STICKY_OFFSET)};
 
   z-index: ${({ theme }) => theme.zIndex.appBar};
 
@@ -32,13 +31,6 @@ export const Root = styled.nav<Props>`
   backdrop-filter: ${({ stick }) =>
     stick ? 'blur(20px) saturate(2.5)' : 'none'};
 
-  transition: ${({ theme }) =>
-    theme.transitions.create([
-      'border-color',
-      'box-shadow',
-      'backdrop-filter',
-    ])};
-
   ${({ theme }) => theme.getColorSchemeSelector('dark')} {
     border: 1px solid
       ${({ stick }) => (stick ? 'rgba(80, 80, 80, 1)' : 'transparent')};
@@ -50,8 +42,38 @@ export const Root = styled.nav<Props>`
   }
 
   .title {
-    color: ${({ theme }) => theme.palette.text.primary};
+    color: ${({ theme }) => theme.vars.palette.text.primary};
     text-decoration: none;
+  }
+
+  ${({ theme }) => theme.breakpoints.up('sm')} {
+    top: ${({ theme }) => theme.spacing(STICKY_OFFSET)};
+
+    transition: ${({ theme }) =>
+      theme.transitions.create([
+        'border-color',
+        'box-shadow',
+        'backdrop-filter',
+      ])};
+  }
+
+  ${({ theme }) => theme.breakpoints.down('sm')} {
+    top: 0;
+
+    border-radius: ${({ theme, stick }) =>
+      stick ? 0 : theme.shape.borderRadius * 2}px;
+
+    border-top-width: ${({ stick }) => (stick ? '0' : '1px')} !important;
+    border-left-width: ${({ stick }) => (stick ? '0' : '1px')} !important;
+    border-right-width: ${({ stick }) => (stick ? '0' : '1px')} !important;
+
+    transition: ${({ theme }) =>
+      theme.transitions.create([
+        'border-color',
+        'box-shadow',
+        'backdrop-filter',
+        'border-radius',
+      ])};
   }
 `
 

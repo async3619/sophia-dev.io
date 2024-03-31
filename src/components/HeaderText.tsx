@@ -9,12 +9,26 @@ export interface HeaderTextProps {
   children: React.ReactNode
 }
 
-const transitionStyles = {
+const transitionStyles: Record<string, React.CSSProperties> = {
   entering: { opacity: 0, transform: 'translateY(100%) translateY(-50%)' },
   entered: { opacity: 1, transform: 'translateY(0) translateY(-50%)' },
-  exiting: { opacity: 1, transform: 'translateY(0) translateY(-50%)' },
-  exited: { opacity: 0, transform: 'translateY(-100%) translateY(-50%)' },
-  unmounted: { transform: 'translateY(100%) translateY(-50%)' },
+  exiting: {
+    opacity: 1,
+    transform: 'translateY(0) translateY(-50%)',
+    pointerEvents: 'none',
+    userSelect: 'none',
+  },
+  exited: {
+    opacity: 0,
+    transform: 'translateY(-100%) translateY(-50%)',
+    pointerEvents: 'none',
+    userSelect: 'none',
+  },
+  unmounted: {
+    transform: 'translateY(100%) translateY(-50%)',
+    pointerEvents: 'none',
+    userSelect: 'none',
+  },
 }
 
 export function HeaderText({ enter, children }: HeaderTextProps) {
