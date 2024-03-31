@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { Global } from '@emotion/react'
 
 import { Container, CssBaseline } from '@mui/material'
 import { useColorScheme } from '@mui/material/styles'
@@ -37,6 +38,7 @@ export function Layout({ children }: LayoutProps) {
   return (
     <Styled.Root>
       <CssBaseline />
+      <Global styles={Styled.GlobalStyles} />
       <Container maxWidth="sm">
         <Header />
         <Styled.Main>{children}</Styled.Main>
