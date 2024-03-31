@@ -4,7 +4,7 @@ import { Stack, Typography } from '@mui/material'
 import { useUIStore } from '@stores/ui'
 
 import * as Styled from './Navigator.styled'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 interface RouteItem {
   href: string
@@ -27,7 +27,9 @@ const ROUTES: RouteItem[] = [
 ]
 
 export function Navigator() {
-  const { asPath } = useRouter()
+  const { pathname, asPath } = useRouter()
+  const currentPath = asPath ?? pathname
+  const lastPath = useRef(currentPath)
   const closeMenu = useUIStore((state) => state.closeMenu)
 
   useEffect(() => {
@@ -40,6 +42,13 @@ export function Navigator() {
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [closeMenu])
+
+  useEffect(() => {
+    if (lastPath.current !== currentPath) {
+      closeMenu()
+      lastPath.current = currentPath
+    }
+  }, [closeMenu, currentPath])
 
   return (
     <>
