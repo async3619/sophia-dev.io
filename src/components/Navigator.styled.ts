@@ -74,7 +74,7 @@ const BackdropAppearance = keyframes`
 `
 
 export const Root = styled.div`
-  padding: ${({ theme }) => theme.spacing(2)};
+  padding: ${({ theme }) => theme.spacing(1)};
   border-radius: ${({ theme }) => theme.shape.borderRadius * 2}px;
 
   position: absolute;
@@ -122,7 +122,6 @@ export const Root = styled.div`
 
   ${({ theme }) => theme.breakpoints.down('sm')} {
     margin: ${({ theme }) => theme.spacing(0)};
-    padding: ${({ theme }) => theme.spacing(1)};
   }
 `
 
