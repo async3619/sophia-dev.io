@@ -1,0 +1,93 @@
+---
+title: "강력한-타입 HTTP 클라이언트"
+createdAt: "2024-02-07 20:40:00"
+excerpt: "타입스크립트 환경에서 완벽한 타입을 지원하는 HTTP 클라이언트를 구현해보자."
+---
+
+보통의 HTTP 클라이언트 라이브러리는 타입스크립트 환경에서 사용하기엔 Response 타입을 보장하지 않는 등, 타입 안정성이 떨어지는 경우가 많습니다.
+
+이를 보완하기 위해, 제네릭 프로그래밍을 이용해 타입 안정성을 보장하는 HTTP 클라이언트를 구현할 수 있습니다.
+
+일단 각 엔드포인트에 대한 선언형 정의를 위한 타입을 선언합니다.
+
+```typescript
+/**
+ * HTTP Method Types
+ */
+export type MethodTypes = 'GET' | 'POST' | 'PUT' | 'DELETE'
+
+/**
+ * Endpoint Definition
+ */
+export interface Route<TMethod extends MethodTypes, TResponse> {
+  method: TMethod
+  response: TResponse
+}
+
+/**
+ * Endpoints (for extending)
+ */
+export type Endpoints = {
+  [key: string]: Route<any, any>
+}
+```
+
+그러면, 이제 다음과 같은 방법으로 API 명세를 정의할 수 있습니다.
+
+```typescript
+/**
+ * API Endpoints
+ */
+export interface APIEndpoints extends Endpoints {
+  '/users': Route<'GET', User[]>
+}
+```
+
+이러한 정의 타입들을 이용해 정적 타입 체크가 가능한 HTTP 클라이언트를 구현하기 위해선 조금은 복잡한 타입 연산을 필요로 합니다.
+
+에를 들면, GET 메서드를 사용하는 엔트포인트만 추출하여 새로운 타입을 만드는 유틸리티 타입을 작성해야 합니다.
+
+```typescript
+/**
+ * Extract endpoints by method
+ */
+export type ExtractBy<
+  TMethod extends MethodTypes,
+  TEndpoints extends Endpoints,
+> = {
+  [K in keyof TEndpoints as TEndpoints[K]['method'] extends TMethod
+    ? K
+    : never]: TEndpoints[K]
+}
+```
+
+해당 유틸리티 타입은 `TEndpoints` 타입을 순회하며 매 타입 중 `method` 프로퍼티가 `TMethod`와 일치하는 타입만 추출하여 새로운 타입을 만들어냅니다.
+
+이제 위에서 선언한 타입들을 이용하여 HTTP 클라이언트를 구현할 수 있습니다.
+
+```typescript
+export class HTTPClient<TEndpoints extends Endpoints> {
+  async get<TPath extends keyof ExtractBy<'GET', TEndpoints>>(
+    path: TPath,
+  ): Promise<ExtractBy<'GET', TEndpoints>[TPath]['response']> {
+    return {} as any
+  }
+
+  // ...
+}
+```
+
+이제 이 클라이언트를 사용할 때, 다음과 같이 타입 안정성을 보장받을 수 있습니다.
+
+```typescript
+const client = new HTTPClient<APIEndpoints>()
+client.get('/users').then(users => {
+  // users: User[]
+})
+```
+
+실제로 사용해보면, 다음과 같이 타입스크립트 언어 서버가 제대로 타입 추론을 수행하는 것을 볼 수 있습니다.
+
+![타입 추론](/static/blog/strongly-typed-http-client/result.png)
+
+추가적으로, Request Body 혹은 Query Parameter에 대한 프로퍼티 등을 확장하여 리치한 사용 경험을 구현 할 수 있겠습니다.
