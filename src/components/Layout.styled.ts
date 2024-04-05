@@ -11,9 +11,7 @@ export const Root = styled.div`
   }
 `
 
-export const Main = styled.main`
-  overflow-x: hidden;
-`
+export const Main = styled.main``
 
 export const GlobalStyles = css`
   a {
