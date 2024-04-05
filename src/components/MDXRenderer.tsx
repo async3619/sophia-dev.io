@@ -7,6 +7,7 @@ import { MarkdownParagraph } from '@components/Markdown/Paragraph'
 import { MarkdownLink } from '@components/Markdown/Link'
 import { MarkdownFigure } from '@components/Markdown/Figure'
 import { MarkdownCodeBlock } from '@components/Markdown/CodeBlock'
+import { MarkdownImage } from '@components/Markdown/Image'
 
 import { StaticBaseProps } from '@utils/getDocument'
 
@@ -21,6 +22,7 @@ const components = {
   a: MarkdownLink,
   figure: MarkdownFigure,
   pre: MarkdownCodeBlock,
+  img: MarkdownImage,
 }
 
 export function MDXRenderer({ source }: MDXRendererProps) {
