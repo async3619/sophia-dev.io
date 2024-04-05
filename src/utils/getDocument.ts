@@ -4,6 +4,7 @@ import fs from 'fs'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
 import matter from 'gray-matter'
+import rehypePrettyCode, { Options } from 'rehype-pretty-code'
 
 import readingTime from 'reading-time'
 
@@ -28,7 +29,20 @@ export async function getDocument<T>(
   const time = readingTime(fileContents)
 
   const { content, data } = matter(fileContents)
-  const mdxSource = await serialize(content, { scope: data })
+  const mdxSource = await serialize(content, {
+    scope: data,
+    mdxOptions: {
+      rehypePlugins: [
+        [
+          rehypePrettyCode as any,
+          {
+            theme: 'material-theme',
+            grid: true,
+          } as Options,
+        ],
+      ],
+    },
+  })
   const metadata = metadataValidator(data)
 
   return {
