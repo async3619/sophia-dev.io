@@ -18,4 +18,8 @@ export const Root = styled.code`
 export const CodeBlockContent = styled.code`
   font-size: 0.9em;
   font-family: 'Consolas', monospace;
+
+  [data-line] {
+    padding-right: ${({ theme }) => theme.spacing(2)};
+  }
 `
