@@ -12,7 +12,7 @@ const nextConfig = {
   reactStrictMode: true,
   pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
   i18n: {
-    locales: ['en', 'ko'],
+    locales: ['ko'],
     defaultLocale: 'ko',
   },
   compiler: {
