@@ -1,5 +1,6 @@
 {
   "title": "블로그 \uD83D\uDCAD",
   "readingTime": "읽는데 ${count}분",
-  "empty": "블로그 게시글이 없습니다"
+  "empty": "블로그 게시글이 없습니다",
+  "detailed": "자세히 보기"
 }
