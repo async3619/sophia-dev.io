@@ -7,11 +7,11 @@ export const config = {
 
 export default async function handler(request: NextRequest) {
   const suiteRegular = await fetch(
-    new URL('./SUITE-Regular.ttf', import.meta.url),
+    new URL('./SUITE-Regular.woff', import.meta.url),
   ).then((res) => res.arrayBuffer())
 
   const suiteExtraBold = await fetch(
-    new URL('./SUITE-ExtraBold.ttf', import.meta.url),
+    new URL('./SUITE-ExtraBold.woff', import.meta.url),
   ).then((res) => res.arrayBuffer())
 
   return new ImageResponse(
