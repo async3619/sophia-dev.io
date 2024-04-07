@@ -1,5 +1,4 @@
 import React from 'react'
-import dayjs from 'dayjs'
 
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
@@ -22,6 +21,7 @@ import { getDocuments } from '@utils/getDocuments'
 import { getDocument, StaticBaseProps } from '@utils/getDocument'
 import { isValidString } from '@utils/isValidString'
 import { getWebsiteBaseUrl } from '@utils/getWebsiteBaseUrl'
+import { getCardUrl } from '@utils/getCardUrl'
 
 interface PostPage extends StaticBaseProps<BlogPostMetadata> {
   cardUrl: string
@@ -104,18 +104,8 @@ export const getStaticProps: GetStaticProps<PostPage> = async ({
     locale,
   )
 
-  const { title } = document.metadata
-
-  const openGraphImageUrl = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/blog-card?${new URLSearchParams(
-    {
-      title,
-      date: dayjs(document.metadata.createdAt).format('YYYY년 M월 D일'),
-      'reading-time': Math.ceil(document.readingTime.minutes).toString(),
-    },
-  )}`
-
   return {
-    props: { ...document, cardUrl: openGraphImageUrl },
+    props: { ...document, cardUrl: getCardUrl(document) },
   }
 }
 

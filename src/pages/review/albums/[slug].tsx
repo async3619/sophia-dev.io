@@ -19,6 +19,7 @@ import {
 import { getDocument, StaticBaseProps } from '@utils/getDocument'
 import { isValidString } from '@utils/isValidString'
 import { getDocuments } from '@utils/getDocuments'
+import { getCardUrl } from '@utils/getCardUrl'
 
 interface ReviewPageProps
   extends StaticBaseProps<MusicReviewPostDocument['metadata']> {
@@ -85,14 +86,11 @@ export const getStaticProps: GetStaticProps<ReviewPageProps> = async ({
     locale,
   )
 
-  const { title, quote } = document.metadata
-
-  const encodedTitle = encodeURIComponent(title)
-  const encodedQuote = encodeURIComponent(quote)
-  const openGraphImageUrl = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/album-card?title=${encodedTitle}&description=${encodedQuote}&locale=${locale}&slug=${slug}`
-
   return {
-    props: { ...document, cardUrl: openGraphImageUrl },
+    props: {
+      ...document,
+      cardUrl: getCardUrl(document, `[${document.metadata.title}] 리뷰`),
+    },
   }
 }
 
