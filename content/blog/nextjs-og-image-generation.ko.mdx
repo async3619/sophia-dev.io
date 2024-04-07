@@ -1,0 +1,94 @@
+---
+title: "Open Graph 이미지 생성하기 w/ satori"
+createdAt: "2024-04-07 19:42:00"
+excerpt: "타입스크립트 환경에서 완벽한 타입을 지원하는 HTTP 클라이언트를 구현해보자."
+---
+
+[NextJS](https://nextjs.org/) 프레임워크는 Open Graph Image를 JSX를 통해 생성할 수 있도록 `ImageResponse` 인터페이스를 제공합니다.
+이 인터페이스를 사용하면 다음과 같이 Open Graph 이미지를 생성할 수 있습니다.
+
+```tsx
+import { ImageResponse } from '@vercel/og' // or 'next/og'
+
+export const config = {
+  runtime: 'edge' // vercel의 Edge Function 환경에서 실행하도록 정의
+}
+
+export default async function OpenGraphImage() {
+  const customFont = await fetch(
+    new URL('./custom-font.ttf', import.meta.url),
+  ).then((res) => res.arrayBuffer())
+
+  return new ImageResponse(
+    <div style={{ display: "flex" }}>
+      // ...
+    </div>,
+    {
+      // 사용자 지정 폰트를 등록
+      fonts: [
+        {
+          style: 'normal',
+          data: customFont,
+          lang: 'ko-KR',
+          name: 'custom-font',
+        },
+      ],
+    }
+  )
+}
+```
+
+또한 `ImageResponse` 인터페이스는 사용자 지정 폰트를 사용하여 커스터마이징 할 수 있는 기능을 제공하는데, 문제는 여기서 발생하게 됩니다. Vercel의
+Hobby 플랜은 Edge Function의 최대 용량을 1MB로 설정해두었습니다.
+
+이러한 제약으로 인해 사용자 지정 폰트를 사용하는 경우, 폰트 파일이 실제 Edge Function에 임베딩되는데, 이로 인해 Edge Function의 용량이 초과되어
+배포가 실패하게 됩니다.
+
+이 문제를 해결하기 위해 `ImageResponse` 인터페이스 내부에서 사용하는 [satori](https://npmjs.com/package/satori) 라이브러리를 사용하여,
+해당 API의 실행 환경을 NodeJS로 변경하여 Vercel의 용량 제약을 피할 수 있습니다.
+
+```tsx
+import satori from 'satori'
+
+// ...
+
+const svg = satori(
+  <div style={{ display: 'flex' }}>
+    // ...
+  </div>,
+  { /* options */ },
+)
+
+// ...
+```
+
+특기할만한 점은, `ImageResponse` 인터페이스와 달리, `satori`는 svg 문자열을 반환합니다. 우리가 원하는 것은 이미지이기 때문에, 이 svg 문자열을
+`sharp` 라이브러리를 사용하여 이미지로 변환할 수 있습니다.
+
+```tsx
+import sharp from 'sharp'
+
+// ...
+
+export default async function OpenGraphImage() {
+  // ...
+
+  const pngBuffer = await sharp(Buffer.from(svg)).png().toBuffer()
+  return res.setHeader('content-type', 'image/png').send(pngBuffer)
+}
+```
+
+이제 우리는 Vercel의 용량 제약을 피하면서도 사용자 지정 폰트를 사용하여 Open Graph 이미지를 생성할 수 있게 되었습니다.
+
+주의 해야할 점은, satori를 사용하여 NodeJS 런타임을 사용하므로, fetch가 아닌 fs를 사용하여 파일을 읽어야 합니다.
+
+다만, Vercel-deployed 환경에서는 디렉토리 구조를 알기 어렵기 떄문에, 별도의 저장소에 폰트 등을 저장하고, 해당 URL을 사용하여 fetch하는 방법을
+사용하는 것이 좋습니다.
+
+```tsx
+const url = `${process.env.FONT_STORAGE_URL}/SUITE-Regular.woff`;
+
+fetch(url).then((res) =>
+  res.arrayBuffer(),
+)
+```
