@@ -1,75 +1,64 @@
-import { ImageResponse } from '@vercel/og'
-import { NextRequest } from 'next/server'
+import satori from 'satori'
+import sharp from 'sharp'
+import { NextApiHandler } from 'next'
 
-export const config = {
-  runtime: 'edge',
-}
+const handler: NextApiHandler = async (req, res) => {
+  const [suiteRegular, suiteExtraBold] = await Promise.all([
+    fetch(`${process.env.FONT_STORAGE_URL}/SUITE-Regular.woff`).then((res) =>
+      res.arrayBuffer(),
+    ),
+    fetch(`${process.env.FONT_STORAGE_URL}/SUITE-ExtraBold.woff`).then((res) =>
+      res.arrayBuffer(),
+    ),
+  ])
 
-export default async function handler(request: NextRequest) {
-  const { searchParams } = new URL(request.url)
-  const suiteRegular = await fetch(
-    new URL('./SUITE-Regular.ttf', import.meta.url),
-  ).then((res) => res.arrayBuffer())
-
-  const locale = searchParams.get('locale') ?? 'ko'
-  const pageTitle = locale === 'ko' ? '개발자 /소피아/' : 'Sophia, a /webdev/'
-
-  return new ImageResponse(
-    (
-      <div
+  const svg = await satori(
+    <div
+      style={{
+        backgroundImage:
+          'url(https://res.cloudinary.com/dh9u8gpy1/image/upload/v1712481486/card-bg.png)',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-end',
+        height: '100%',
+        width: '100%',
+        padding: '48px',
+      }}
+    >
+      <h1
         style={{
-          backgroundColor: '#1b1b1b',
-          color: '#fff',
-          display: 'flex',
-          height: '100%',
-          width: '100%',
-          padding: '2rem',
-          alignItems: 'center',
-          justifyContent: 'center',
+          fontSize: '48px',
+          fontWeight: 'bold',
+          margin: 0,
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <p
-            style={{
-              fontSize: '4rem',
-              margin: 0,
-              color: 'rgba(255, 255, 255, 0.75)',
-            }}
-          >
-            {pageTitle}
-          </p>
-          <p
-            style={{
-              fontSize: '4rem',
-              marginTop: 0,
-              marginBottom: 0,
-              marginLeft: '1rem',
-              color: 'rgba(255, 255, 255, 0.75)',
-            }}
-          >
-            🌧
-          </p>
-        </div>
-      </div>
-    ),
+        개발자 /소피아/
+      </h1>
+    </div>,
     {
       width: 1200,
       height: 630,
-      emoji: 'blobmoji',
       fonts: [
         {
           style: 'normal',
           data: suiteRegular,
+          weight: 400,
+          lang: 'ko-KR',
+          name: 'suite',
+        },
+        {
+          style: 'normal',
+          data: suiteExtraBold,
+          weight: 800,
           lang: 'ko-KR',
           name: 'suite',
         },
       ],
     },
   )
+
+  const pngBuffer = await sharp(Buffer.from(svg)).png().toBuffer()
+  return res.setHeader('content-type', 'image/png').send(pngBuffer)
 }
+export default handler

@@ -1,121 +1,90 @@
-import { ImageResponse } from '@vercel/og'
-import { NextRequest } from 'next/server'
+import satori from 'satori'
+import sharp from 'sharp'
+import { NextApiHandler } from 'next'
 
-export const config = {
-  runtime: 'edge',
-}
+const handler: NextApiHandler = async (req, res) => {
+  const { searchParams } = new URL(`http://0.0.0.0:3000${req.url}`)
 
-export default async function handler(request: NextRequest) {
-  const { searchParams } = new URL(request.url)
-  const suiteRegular = await fetch(
-    new URL('./SUITE-Regular.ttf', import.meta.url),
-  ).then((res) => res.arrayBuffer())
+  const [suiteRegular, suiteExtraBold] = await Promise.all([
+    fetch(`${process.env.FONT_STORAGE_URL}/SUITE-Regular.woff`).then((res) =>
+      res.arrayBuffer(),
+    ),
+    fetch(`${process.env.FONT_STORAGE_URL}/SUITE-ExtraBold.woff`).then((res) =>
+      res.arrayBuffer(),
+    ),
+  ])
 
-  const locale = searchParams.get('locale') ?? 'ko'
   const title = searchParams.get('title')
-  const description = searchParams.get('description')
-  const pageTitle = locale === 'ko' ? '개발자 /소피아/' : 'Sophia, a /webdev/'
+  const date = searchParams.get('date')
+  const readingTime = searchParams.get('reading-time')
 
   if (!title) {
     throw new Error('Title search param is required.')
-  } else if (!description) {
-    throw new Error('Description search param is required.')
+  } else if (!date) {
+    throw new Error('Date search param is required.')
+  } else if (!readingTime) {
+    throw new Error('Reading time search param is required.')
   }
 
-  return new ImageResponse(
-    (
-      <div
+  const svg = await satori(
+    <div
+      style={{
+        backgroundImage:
+          'url(https://res.cloudinary.com/dh9u8gpy1/image/upload/v1712481486/card-bg.png)',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-end',
+        height: '100%',
+        width: '100%',
+        padding: '48px',
+      }}
+    >
+      <p
         style={{
-          backgroundColor: '#1b1b1b',
-          color: '#fff',
-          display: 'flex',
-          height: '100%',
-          width: '100%',
-          padding: '2rem',
+          fontSize: '30px',
+          margin: 0,
+          opacity: 0.5,
         }}
       >
-        <div
-          style={{
-            width: '100%',
-            display: 'flex',
-            flex: '1 1 auto',
-            flexDirection: 'column',
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-            }}
-          >
-            <p
-              style={{
-                fontSize: '3rem',
-                margin: 0,
-                color: 'rgba(255, 255, 255, 0.5)',
-              }}
-            >
-              🌧
-            </p>
-            <div style={{ display: 'flex', flex: '1 1 auto' }} />
-            <p
-              style={{
-                fontSize: '2rem',
-                margin: 0,
-                color: 'rgba(255, 255, 255, 0.5)',
-              }}
-            >
-              {pageTitle}
-            </p>
-          </div>
-          <div style={{ display: 'flex', flex: '1 1 auto' }} />
-          <div
-            style={{ display: 'flex', flexDirection: 'column', width: '100%' }}
-          >
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <p
-                style={{
-                  fontSize: '4rem',
-                  margin: 0,
-                  overflow: 'hidden',
-                  whiteSpace: 'nowrap',
-                  textOverflow: 'ellipsis',
-                  maxWidth: '100%',
-                }}
-              >
-                {title}
-              </p>
-            </div>
-            <p
-              style={{
-                margin: '0.75rem 0 0',
-                fontSize: '2.5rem',
-                overflow: 'hidden',
-                whiteSpace: 'nowrap',
-                textOverflow: 'ellipsis',
-                maxWidth: '100%',
-                color: 'rgba(255, 255, 255, 0.5)',
-              }}
-            >
-              {description}
-            </p>
-          </div>
-        </div>
-      </div>
-    ),
+        개발자 /소피아/
+      </p>
+      <h1
+        style={{
+          fontSize: '48px',
+          margin: '6px 0 18px',
+          fontWeight: 'bold',
+        }}
+      >
+        {title}
+      </h1>
+      <p style={{ fontSize: '24px', margin: 0, opacity: 0.5 }}>
+        {date} · 읽는데 {readingTime}분
+      </p>
+    </div>,
     {
       width: 1200,
       height: 630,
-      emoji: 'blobmoji',
       fonts: [
         {
           style: 'normal',
           data: suiteRegular,
+          weight: 400,
+          lang: 'ko-KR',
+          name: 'suite',
+        },
+        {
+          style: 'normal',
+          data: suiteExtraBold,
+          weight: 800,
           lang: 'ko-KR',
           name: 'suite',
         },
       ],
     },
   )
+
+  const pngBuffer = await sharp(Buffer.from(svg)).png().toBuffer()
+  return res.setHeader('content-type', 'image/png').send(pngBuffer)
 }
+export default handler

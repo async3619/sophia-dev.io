@@ -28,6 +28,7 @@ import {
 import { getDocument, StaticBaseProps } from '@utils/getDocument'
 import { isValidString } from '@utils/isValidString'
 import { getDocuments } from '@utils/getDocuments'
+import { getCardUrl } from '@utils/getCardUrl'
 
 interface MovieReviewPageProps
   extends StaticBaseProps<MovieReviewPostDocument['metadata']> {
@@ -127,14 +128,14 @@ export const getStaticProps: GetStaticProps<MovieReviewPageProps> = async ({
     locale,
   )
 
-  const { title, quote } = document.metadata
-
-  const encodedTitle = encodeURIComponent(title)
-  const encodedQuote = encodeURIComponent(quote)
-  const openGraphImageUrl = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/movie-card?title=${encodedTitle}&description=${encodedQuote}&locale=${locale}&slug=${slug}`
-
   return {
-    props: { ...document, cardUrl: openGraphImageUrl },
+    props: {
+      ...document,
+      cardUrl: getCardUrl(
+        document,
+        `[${document.metadata.title} (${dayjs(document.metadata.releasedAt, 'YYYY-MM-DD').format('YYYY')})] 리뷰`,
+      ),
+    },
   }
 }
 

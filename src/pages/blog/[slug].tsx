@@ -21,6 +21,7 @@ import { getDocuments } from '@utils/getDocuments'
 import { getDocument, StaticBaseProps } from '@utils/getDocument'
 import { isValidString } from '@utils/isValidString'
 import { getWebsiteBaseUrl } from '@utils/getWebsiteBaseUrl'
+import { getCardUrl } from '@utils/getCardUrl'
 
 interface PostPage extends StaticBaseProps<BlogPostMetadata> {
   cardUrl: string
@@ -103,14 +104,8 @@ export const getStaticProps: GetStaticProps<PostPage> = async ({
     locale,
   )
 
-  const { excerpt, title } = document.metadata
-
-  const encodedTitle = encodeURIComponent(title)
-  const encodedDescription = encodeURIComponent(excerpt)
-  const openGraphImageUrl = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/blog-card?title=${encodedTitle}&description=${encodedDescription}&locale=${locale}`
-
   return {
-    props: { ...document, cardUrl: openGraphImageUrl },
+    props: { ...document, cardUrl: getCardUrl(document) },
   }
 }
 
