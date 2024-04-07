@@ -70,7 +70,7 @@
     "next-translate-plugin": "^2.6.2",
     "node-fetch": "^2.6.7",
     "prettier": "^3.2.4",
-    "sharp": "^0.33.2",
+    "sharp": "^0.32.6",
     "ts-node": "^10.9.2",
     "typescript": "^5",
     "url-slug": "^4.0.1",
