@@ -1,4 +1,5 @@
 import React from 'react'
+import dayjs from 'dayjs'
 
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
@@ -103,11 +104,15 @@ export const getStaticProps: GetStaticProps<PostPage> = async ({
     locale,
   )
 
-  const { excerpt, title } = document.metadata
+  const { title } = document.metadata
 
-  const encodedTitle = encodeURIComponent(title)
-  const encodedDescription = encodeURIComponent(excerpt)
-  const openGraphImageUrl = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/blog-card?title=${encodedTitle}&description=${encodedDescription}&locale=${locale}`
+  const openGraphImageUrl = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/blog-card?${new URLSearchParams(
+    {
+      title,
+      date: dayjs(document.metadata.createdAt).format('YYYY년 M월 D일'),
+      'reading-time': Math.ceil(document.readingTime.minutes).toString(),
+    },
+  )}`
 
   return {
     props: { ...document, cardUrl: openGraphImageUrl },
