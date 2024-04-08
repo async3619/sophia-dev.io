@@ -37,7 +37,6 @@ export const Title = styled(Link)`
   &:hover,
   &:focus-visible {
     text-decoration: underline;
-    text-decoration-style: dotted;
   }
 `
 

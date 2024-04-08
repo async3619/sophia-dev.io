@@ -4,6 +4,8 @@ export const Root = styled.img`
   width: calc(100% + ${({ theme }) => theme.spacing(8)});
   max-width: calc(100% + ${({ theme }) => theme.spacing(8)});
 
+  border-radius: ${({ theme }) => theme.shape.borderRadius}px;
+
   margin: ${({ theme }) => theme.spacing(2, -4)};
 
   display: block;

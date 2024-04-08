@@ -10,5 +10,5 @@ export function MarkdownLink(
     return <Styled.LinkRoot {...props} href={href} />
   }
 
-  return <Styled.Root {...props} />
+  return <Styled.Root {...props} target="_blank" rel="noopener noreferrer" />
 }
