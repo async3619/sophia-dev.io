@@ -1,0 +1,95 @@
+---
+title: "모바일 웹 환경에서 키보드가 열려 있는지 확인하는 방법들"
+createdAt: "2024-04-27 21:39:00"
+excerpt: "소프트 키보드가 열려 있는지 확인하는 여러가지 방법들을 설명합니다."
+---
+
+모바일 웹 환경은 조금 특별한 기획을 해야할 때가 있습니다. 예를 들어, 소프트 키보드가 열려 있을 때 혹은 닫혀 있을때의 뷰포트의 높이 맞게 레이아웃을 렌더하는
+등의 경우가 있습니다.
+
+![Keyboard가 열려 있는지 확인하는 방법](/static/blog/watching-keyboard-status-with-web-apis.ko/keyboard-viewport.png)
+
+브라우저의 구현마다 다르지만, 확인된 메이저 브라우저에서의 동작은 소프트 키보드가 열려 있을 때 `body`의 높이는 _줄어들지 않습니다._ 이를 대응하기 위해
+우리는 소프트 키보드가 열려 있는지 여부를 확인해야 합니다.
+
+소프트 키보드가 열려있는지 확인하는 방법은 여러가지가 있습니다. 몇가지의 표준 API를 사용하는 방법을 소개하도록 하겠습니다.
+
+## VisualViewport API 사용하기
+
+VisualViewport API는 뷰포트의 크기와 스크롤 위치를 제공하는 API입니다. 이 API를 사용하면 현재 뷰포트의 높이를 파악할 수 있습니다.
+다만, 소프트 키보드가 열려있는지 여부를 확인하는 것은 불가능합니다.
+
+따라서, 우리는 초기의 뷰포트 높이를 저장하고, VisualViewport API의 `resize` 이벤트를 통해 뷰포트의 높이가 변화하는지를 확인하는 방법을 사용해야 합니다.
+
+```tsx
+import { useEffect, useState, useRef } from "react";
+
+export default function App() {
+  const initialHeight = useRef(visualViewport.height);
+  const [opened, setOpened] = useState(false);
+
+  useEffect(() => {
+    visualViewport.addEventListener("resize", () => {
+      /**
+       * 실제 프로덕션 환경에서는 모바일 환경에서만 작동하도록 제한해야 합니다.
+       *
+       * 또한, 실제 키보드가 열리는 액션이 아닌 다른 이유로 뷰포트의 높이가
+       * 변화할 수 있으므로 이를 고려한 임계값을 설정하는 등의 추가적인 로직이
+       * 필요합니다.
+       */
+      setOpened(visualViewport.height < initialHeight.current);
+    });
+  }, []);
+
+  return (
+    <div className="App">
+      <input type="text" />
+      <div>{opened ? "opened" : "hidden"}</div>
+    </div>
+  );
+}
+
+```
+
+## VirtualKeyboard API 사용하기
+
+VirtualKeyboard API는 소프트 키보드의 상태를 확인할 수 있는 API입니다. 이 API에서 제공하는 `geometrychange` 이벤트를 통해 소프트 키보드의 열림
+여부를 추적할 수 있게 됩니다.
+
+```tsx
+import { useEffect, useState } from "react";
+
+export default function App() {
+  const [opened, setOpened] = useState(false);
+
+  useEffect(() => {
+    if (!("virtualKeyboard" in navigator)) {
+      return;
+    }
+
+    const virtualKeyboard = navigator.virtualKeyboard;
+
+    /**
+     * 브라우저에 가상 키보드에 대한 오클루전을
+     * 직접 처리함을 알리기 위해 설정해야하는 옵션입니다.
+     */
+    virtualKeyboard.overlaysContent = true;
+
+    virtualKeyboard.addEventListener("geometrychange", () => {
+      setOpened(event.target.boundingRect.height > 0);
+    });
+  }, []);
+
+  return (
+    <div className="App">
+      <input type="text" />
+      <div>{opened ? "opened" : "hidden"}</div>
+    </div>
+  );
+}
+```
+
+다만 유의해야할 점은, VirtualKeyboard API는 아직 실험적인 API이기 때문에,
+[브라우저 호환성](https://caniuse.com/?search=virtualkeyboard)을 확인하는 것이 중요합니다.
+
+가장 좋은 방법은, VisualViewport API를 이용하여 fallback 로직을 구현하고, VirtualKeyboard API를 사용하는 것이라고 할 수 있겠습니다.
