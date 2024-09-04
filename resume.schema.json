@@ -52,12 +52,16 @@
         },
         "title": {
           "type": "string"
+        },
+        "url": {
+          "type": "string"
         }
       },
       "required": [
         "title",
         "startDate",
         "position",
+        "url",
         "projects"
       ],
       "type": "object"

@@ -20,15 +20,17 @@ function ResumeExperience({ experiences }: ResumeExperienceProps) {
                 {experience.startDate} ~ {experience.endDate ?? '현재'}
               </Typography>
               <Typography>
-                <Typography
-                  component="span"
-                  variant="body1"
-                  fontWeight={600}
-                  display="inline-block"
-                  mr={1}
-                >
-                  {experience.title}
-                </Typography>
+                <Styled.Link target="_blank" href={experience.url}>
+                  <Typography
+                    component="span"
+                    variant="body1"
+                    fontWeight={600}
+                    display="inline-block"
+                    mr={1}
+                  >
+                    {experience.title}
+                  </Typography>
+                </Styled.Link>
                 <Typography
                   component="span"
                   variant="body2"
@@ -48,7 +50,7 @@ function ResumeExperience({ experiences }: ResumeExperienceProps) {
                       {project.contents.map((content, index) => (
                         <Typography
                           component="li"
-                          variant="body2"
+                          variant="body1"
                           key={index}
                           mb="1em"
                         >

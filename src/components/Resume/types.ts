@@ -25,6 +25,7 @@ export interface ResumeExperienceData {
   startDate: string
   endDate?: string
   position: string
+  url: string
   projects: ResumeExperienceProject[]
 }
 
