@@ -13,9 +13,9 @@ function ResumeExperience({ experiences }: ResumeExperienceProps) {
   return (
     <Styled.Root>
       <Grid container spacing={2}>
-        {experiences.map((experience) => {
+        {experiences.map((experience, index) => {
           return (
-            <Grid item key={experience.title} xs={12} mb={1}>
+            <Grid item key={index} xs={12} mb={1}>
               <Typography variant="body2" color="text.secondary" mb="0.5em">
                 {experience.startDate} ~ {experience.endDate ?? '현재'}
               </Typography>
