@@ -1,5 +1,6 @@
 import * as Styled from './Footer.styled'
 import { Typography } from '@mui/material'
+import Link from 'next/link'
 
 export interface FooterItem {
   label: string
@@ -17,6 +18,15 @@ export function Footer({ items }: FooterProps) {
       <Styled.Divider />
       <Styled.Table>
         <tbody>
+          <tr>
+            <td colSpan={2}>
+              <Link href="/resume" passHref legacyBehavior>
+                <Typography component={Styled.Link} variant="body2">
+                  Resume
+                </Typography>
+              </Link>
+            </td>
+          </tr>
           {items.map((item) => (
             <tr key={item.href}>
               <th>
