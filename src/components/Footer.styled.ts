@@ -1,7 +1,11 @@
 import styled from '@emotion/styled'
 import { linkInterpolation } from '@styles/link'
 
-export const Root = styled.div``
+export const Root = styled.div`
+  @media print {
+    display: none;
+  }
+`
 
 export const Divider = styled.div`
   width: ${({ theme }) => theme.spacing(4)};
