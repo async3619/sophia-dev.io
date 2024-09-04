@@ -15,7 +15,7 @@ function ResumeTechStack({ techStacks }: ResumeTechStackProps) {
       <Grid container spacing={3}>
         {techStacks.map((group) => {
           return (
-            <>
+            <React.Fragment key={group.title}>
               <Grid item xs={4}>
                 <Typography variant="body1" fontWeight={600}>
                   {group.title}
@@ -30,7 +30,7 @@ function ResumeTechStack({ techStacks }: ResumeTechStackProps) {
                   ))}
                 </Grid>
               </Grid>
-            </>
+            </React.Fragment>
           )
         })}
       </Grid>
