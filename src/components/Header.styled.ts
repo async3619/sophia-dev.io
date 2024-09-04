@@ -75,6 +75,10 @@ export const Root = styled.nav<Props>`
 
     transition: ${({ theme }) => theme.transitions.create(['backdrop-filter'])};
   }
+
+  @media print {
+    display: none;
+  }
 `
 
 export const TitleContainer = styled.div`
