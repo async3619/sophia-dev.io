@@ -10,11 +10,18 @@
         },
         "profile": {
           "$ref": "#/definitions/ResumeProfileData"
+        },
+        "techStack": {
+          "items": {
+            "$ref": "#/definitions/ResumeTechStackGroup"
+          },
+          "type": "array"
         }
       },
       "required": [
         "profile",
-        "introduction"
+        "introduction",
+        "techStack"
       ],
       "type": "object"
     },
@@ -58,6 +65,25 @@
         "email",
         "phone",
         "github"
+      ],
+      "type": "object"
+    },
+    "ResumeTechStackGroup": {
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "items"
       ],
       "type": "object"
     }
