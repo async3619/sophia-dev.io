@@ -13,7 +13,7 @@ function ResumeExperience({ experiences }: ResumeExperienceProps) {
   return (
     <Styled.Root>
       <Grid container spacing={2}>
-        {experiences.map((experience, index) => {
+        {experiences.map((experience) => {
           return (
             <Grid item key={experience.title} xs={12} mb={1}>
               <Typography variant="body2" color="text.secondary" mb="0.5em">
@@ -32,7 +32,7 @@ function ResumeExperience({ experiences }: ResumeExperienceProps) {
                 <Typography
                   component="span"
                   variant="body2"
-                  color="text.secondary"
+                  color="primary.dark"
                   display="inline-block"
                 >
                   {experience.position}
