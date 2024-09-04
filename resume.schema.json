@@ -1,0 +1,46 @@
+{
+  "$ref": "#/definitions/ResumeData",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "ResumeData": {
+      "additionalProperties": false,
+      "properties": {
+        "profile": {
+          "$ref": "#/definitions/ResumeProfileData"
+        }
+      },
+      "required": [
+        "profile"
+      ],
+      "type": "object"
+    },
+    "ResumeProfileData": {
+      "additionalProperties": false,
+      "properties": {
+        "birthDate": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "github": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "birthDate",
+        "email",
+        "phone",
+        "github"
+      ],
+      "type": "object"
+    }
+  }
+}
