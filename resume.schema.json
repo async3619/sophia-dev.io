@@ -1,0 +1,192 @@
+{
+  "$ref": "#/definitions/ResumeData",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "ResumeData": {
+      "additionalProperties": false,
+      "properties": {
+        "experiences": {
+          "items": {
+            "$ref": "#/definitions/ResumeExperienceData"
+          },
+          "type": "array"
+        },
+        "introduction": {
+          "$ref": "#/definitions/ResumeIntroductionData"
+        },
+        "profile": {
+          "$ref": "#/definitions/ResumeProfileData"
+        },
+        "projects": {
+          "items": {
+            "$ref": "#/definitions/ResumeProjectData"
+          },
+          "type": "array"
+        },
+        "techStack": {
+          "items": {
+            "$ref": "#/definitions/ResumeTechStackGroup"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile",
+        "introduction",
+        "techStack",
+        "experiences",
+        "projects"
+      ],
+      "type": "object"
+    },
+    "ResumeExperienceData": {
+      "additionalProperties": false,
+      "properties": {
+        "endDate": {
+          "type": "string"
+        },
+        "position": {
+          "type": "string"
+        },
+        "projects": {
+          "items": {
+            "$ref": "#/definitions/ResumeExperienceProject"
+          },
+          "type": "array"
+        },
+        "startDate": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "startDate",
+        "position",
+        "url",
+        "projects"
+      ],
+      "type": "object"
+    },
+    "ResumeExperienceProject": {
+      "additionalProperties": false,
+      "properties": {
+        "contents": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "contents"
+      ],
+      "type": "object"
+    },
+    "ResumeIntroductionData": {
+      "additionalProperties": false,
+      "properties": {
+        "contents": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "contents"
+      ],
+      "type": "object"
+    },
+    "ResumeProfileData": {
+      "additionalProperties": false,
+      "properties": {
+        "birthDate": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "github": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "birthDate",
+        "email",
+        "phone",
+        "github"
+      ],
+      "type": "object"
+    },
+    "ResumeProjectData": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "stacks": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "summary",
+        "description",
+        "stacks",
+        "url"
+      ],
+      "type": "object"
+    },
+    "ResumeTechStackGroup": {
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "items"
+      ],
+      "type": "object"
+    }
+  }
+}
