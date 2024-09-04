@@ -5,12 +5,31 @@
     "ResumeData": {
       "additionalProperties": false,
       "properties": {
+        "introduction": {
+          "$ref": "#/definitions/ResumeIntroductionData"
+        },
         "profile": {
           "$ref": "#/definitions/ResumeProfileData"
         }
       },
       "required": [
-        "profile"
+        "profile",
+        "introduction"
+      ],
+      "type": "object"
+    },
+    "ResumeIntroductionData": {
+      "additionalProperties": false,
+      "properties": {
+        "contents": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "contents"
       ],
       "type": "object"
     },

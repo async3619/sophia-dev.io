@@ -7,19 +7,28 @@ import ResumeSection from '@components/Resume/ResumeSection'
 import ResumeProfile from '@components/Resume/ResumeProfile'
 import { Title } from '@components/Title'
 import { ResumeData } from '@components/Resume/types'
+import { Typography } from '@mui/material'
 
 interface ResumePageProps {
   data: ResumeData
 }
 
 function ResumePage({ data }: ResumePageProps) {
+  const { profile, introduction } = data
+
   return (
     <>
       <ResumeSection>
         <Title>이력서 📄</Title>
-        <ResumeProfile profile={data.profile} />
+        <ResumeProfile profile={profile} />
       </ResumeSection>
-      <ResumeSection title="소개"></ResumeSection>
+      <ResumeSection title="소개">
+        {introduction.contents.map((content, index) => (
+          <Typography key={index} variant="body1" mb="1em">
+            {content}
+          </Typography>
+        ))}
+      </ResumeSection>
     </>
   )
 }

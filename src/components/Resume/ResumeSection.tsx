@@ -12,7 +12,7 @@ function ResumeSection({ children, title }: ResumeSectionProps) {
   return (
     <Styled.Root>
       {title && (
-        <Typography variant="h5" fontSize="1.25rem" fontWeight={600}>
+        <Typography variant="h5" fontSize="1.25rem" fontWeight={600} mb="1em">
           {title}
         </Typography>
       )}

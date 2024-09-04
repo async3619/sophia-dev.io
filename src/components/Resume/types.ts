@@ -6,6 +6,11 @@ export interface ResumeProfileData {
   github: string
 }
 
+export interface ResumeIntroductionData {
+  contents: string[]
+}
+
 export interface ResumeData {
   profile: ResumeProfileData
+  introduction: ResumeIntroductionData
 }
