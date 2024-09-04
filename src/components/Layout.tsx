@@ -39,7 +39,14 @@ export function Layout({ children }: LayoutProps) {
     <Styled.Root>
       <CssBaseline />
       <Global styles={Styled.GlobalStyles} />
-      <Container maxWidth="sm">
+      <Container
+        maxWidth="sm"
+        sx={{
+          '@media print': {
+            maxWidth: 'none',
+          },
+        }}
+      >
         <Header />
         <Styled.Main>{children}</Styled.Main>
         <Footer items={FOOTER_ITEMS} />
