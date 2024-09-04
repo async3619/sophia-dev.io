@@ -29,9 +29,18 @@ export interface ResumeExperienceData {
   projects: ResumeExperienceProject[]
 }
 
+export interface ResumeProjectData {
+  title: string
+  summary: string
+  description: string[]
+  stacks: string[]
+  url: string
+}
+
 export interface ResumeData {
   profile: ResumeProfileData
   introduction: ResumeIntroductionData
   techStack: ResumeTechStackGroup[]
   experiences: ResumeExperienceData[]
+  projects: ResumeProjectData[]
 }

@@ -118,5 +118,63 @@
         }
       ]
     }
+  ],
+  "projects": [
+    {
+      "url": "https://github.com/async3619/cruise",
+      "title": "Cruise",
+      "summary": "다양한 소스에서 음원을 재생할 수 있도록 하는 크로스 플랫폼 음악 플레이어 데스크톱 앱 프로젝트입니다.",
+      "description": [
+        "Electron을 이용하여 크로스 플랫폼 데스크톱 앱을 개발하였으며, 이를 통해 Windows, macOS, Linux 환경에서 동일한 경험을 제공할 수 있었습니다.",
+        "유저가 다양한 소스에서 음원을 재생할 수 있도록, YouTube, SoundCloud, Spotify 등의 API를 활용하여 음원을 스트리밍 할 수 있도록 하였습니다.",
+        "NodeJS를 기반으로 대부분의 데이터 처리를 진행하였고, 퍼포먼스적인 이점을 취하기 위해 Rust를 활용한 라이브러리를 개발하여 사용하였습니다.",
+        "Electron의 고질적인 문제인 IPC를 강력한 타입으로 보완하기 위해 GraphQL을 활용하였으며, Main 프로세스를 NestJS로 작성하였습니다.",
+        "추가적으로, 음원 및 앨범 데이터를 취득할 수 있는 별도의 서버를 NestJS로 개발하여 배포하였습니다."
+      ],
+      "stacks": [
+        "Electron",
+        "NodeJS",
+        "Rust",
+        "React",
+        "TypeScript",
+        "GraphQL",
+        "NestJS"
+      ]
+    },
+    {
+      "url": "https://github.com/async3619/cabinet",
+      "title": "Cabinet",
+      "summary": "개인용 인터넷 커뮤니티 아카이빙 모바일 어플리케이션으로, 설정한 필터 및 기간 마다 커뮤니티의 글을 크롤링 하여 백업하는 프로젝트입니다.",
+      "description": [
+        "Flutter를 사용하여 개발하였고, 이를 통해 개발 생산성의 이점을 확보할 수 있었습니다.",
+        "Android OS의 Task Scheduling API를 활용하여 유저가 앱을 닫은 상태에서도 주기적으로 크롤링을 수행할 수 있도록 구현 하였습니다.",
+        "유저가 설정한 필터 및 기간에 따라, 커뮤니티의 글을 크롤링 하여 백업하는 기능을 구현 하였으며, 이를 통해 유저가 원하는 글만을 백업할 수 있도록 하였습니다."
+      ],
+      "stacks": ["Flutter", "Dart", "Android"]
+    },
+    {
+      "url": "https://github.com/async3619/solv",
+      "title": "Solv",
+      "summary": "Hot Module Replacement와 유사한 기능을 이용하여 다수의 알고리즘 챌린지 서비스 의 문제들을 풀기 위해 도움을 받을 수 있는 NodeJS 기반 CLI 툴입니다.",
+      "description": [
+        "chokidar를 이용한 파일 변경 모니터링을 이용하여, 파일 변경 시 자동으로 테스트 케이스의 입력 값을 주입하여 실행하고 결과를 출력하도록 하였습니다.",
+        "vm2를 통한 sandbox 환경을 이용하여 child process를 이용하지 않는 방식으로 사용자의 코드를 실행하도록 하였습니다.",
+        "CLI 옵션을 통해 유저가 사용할 개발 언어를 선택할 수 있도록 하였으며, ts의 경우 esbuild 이용한 빠른 트랜스파일을 통해 개발자의 편의성을 높였다.",
+        "GitHub Actions을 통해 NPM 배포를 자동화하여 개발 경험을 높이고, 유저가 최신 버전을 쉽게 사용할 수 있도록 하였습니다."
+      ],
+      "stacks": ["NodeJS", "TypeScript", "GitHub Actions"]
+    },
+    {
+      "url": "https://github.com/async3619/cage",
+      "title": "Cage",
+      "summary": "다양한 SNS 및 온라인 서비스에서 팔로우 및 언팔로우 변동 사항을 원하는 채널로 수신할수 있도록 하는 NodeJS 기반 CLI 프로젝트입니다.",
+      "description": [
+        "OOP를 통한 여러가지 SNS 및 온라인 서비스의 API를 추상화하여 설계하였고, 이를 통해 쉽게 개발할 수 있도록 하였습니다.",
+        "유저가 원하는 채널로 수신할 수 있도록, JSON 설정 파일을 이용한 설정 방법을 제공하여 유저가 쉽게 사용할 수 있도록 하였습니다.",
+        "Docker Image로 빌드된 아티팩트를 제공하여 유저가 쉽게 deploy 하여 사용할 수 있도록 하였습니다.",
+        "GitHub Actions를 통해 배포를 자동화 하였으며, 추가적으로 Docker Image 빌드 및 배포를 자동화 하여 개발 경험을 증진 하였습니다."
+      ],
+      "stacks": ["NodeJS", "TypeScript", "Docker", "GitHub Actions"]
+    }
   ]
 }

@@ -10,13 +10,14 @@ import { ResumeData } from '@components/Resume/types'
 import { Typography } from '@mui/material'
 import ResumeTechStack from '@components/Resume/ResumeTechStack'
 import ResumeExperience from '@components/Resume/ResumeExperience'
+import ResumeProject from '@components/Resume/ResumeProject'
 
 interface ResumePageProps {
   data: ResumeData
 }
 
 function ResumePage({ data }: ResumePageProps) {
-  const { profile, introduction, techStack, experiences } = data
+  const { profile, introduction, techStack, experiences, projects } = data
 
   return (
     <>
@@ -36,6 +37,9 @@ function ResumePage({ data }: ResumePageProps) {
       </ResumeSection>
       <ResumeSection title="경력">
         <ResumeExperience experiences={experiences} />
+      </ResumeSection>
+      <ResumeSection title="프로젝트">
+        <ResumeProject projects={projects} />
       </ResumeSection>
     </>
   )

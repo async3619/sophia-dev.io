@@ -17,6 +17,12 @@
         "profile": {
           "$ref": "#/definitions/ResumeProfileData"
         },
+        "projects": {
+          "items": {
+            "$ref": "#/definitions/ResumeProjectData"
+          },
+          "type": "array"
+        },
         "techStack": {
           "items": {
             "$ref": "#/definitions/ResumeTechStackGroup"
@@ -28,7 +34,8 @@
         "profile",
         "introduction",
         "techStack",
-        "experiences"
+        "experiences",
+        "projects"
       ],
       "type": "object"
     },
@@ -125,6 +132,40 @@
         "email",
         "phone",
         "github"
+      ],
+      "type": "object"
+    },
+    "ResumeProjectData": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "stacks": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "summary",
+        "description",
+        "stacks",
+        "url"
       ],
       "type": "object"
     },
