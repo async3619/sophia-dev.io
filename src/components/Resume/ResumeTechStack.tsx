@@ -16,12 +16,12 @@ function ResumeTechStack({ techStacks }: ResumeTechStackProps) {
         {techStacks.map((group) => {
           return (
             <React.Fragment key={group.title}>
-              <Grid item xs={4}>
+              <Grid item xs={12} sm={4}>
                 <Typography variant="body1" fontWeight={600}>
                   {group.title}
                 </Typography>
               </Grid>
-              <Grid item xs={8}>
+              <Grid item xs={12} sm={8}>
                 <Grid container spacing={1}>
                   {group.items.map((item, index) => (
                     <Grid item xs={6} key={index}>
