@@ -5,6 +5,12 @@
     "ResumeData": {
       "additionalProperties": false,
       "properties": {
+        "experiences": {
+          "items": {
+            "$ref": "#/definitions/ResumeExperienceData"
+          },
+          "type": "array"
+        },
         "introduction": {
           "$ref": "#/definitions/ResumeIntroductionData"
         },
@@ -21,7 +27,57 @@
       "required": [
         "profile",
         "introduction",
-        "techStack"
+        "techStack",
+        "experiences"
+      ],
+      "type": "object"
+    },
+    "ResumeExperienceData": {
+      "additionalProperties": false,
+      "properties": {
+        "endDate": {
+          "type": "string"
+        },
+        "position": {
+          "type": "string"
+        },
+        "projects": {
+          "items": {
+            "$ref": "#/definitions/ResumeExperienceProject"
+          },
+          "type": "array"
+        },
+        "startDate": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "startDate",
+        "position",
+        "projects"
+      ],
+      "type": "object"
+    },
+    "ResumeExperienceProject": {
+      "additionalProperties": false,
+      "properties": {
+        "contents": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "contents"
       ],
       "type": "object"
     },
